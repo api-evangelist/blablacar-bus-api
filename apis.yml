@@ -1,33 +1,34 @@
 aid: blablacar-bus-api
-name: BlaBlaCar Bus API
-description: >-
-  We assume that you are already familiar with BlaBlaCar Bus which operates
-  coach services in Europe. We also assume that you have some experience with
-  programming, including communicating with HTTP endpoints. 
-type: Index
-position: Consumer
-access: 3rd-Party
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
-tags:
-  - API
-created: '2024-11-14'
-modified: '2024-11-14'
 url: >-
   https://raw.githubusercontent.com/api-search/blablacar-bus-api/refs/heads/main/apis.yml
-specificationVersion: '0.19'
 apis:
   - aid: blablacar-bus-api:blablacar-bus-api
     name: BlaBlaCar Bus API
+    tags:
+      - API
+    humanURL: ' https://bus-api.blablacar.com/'
+    properties:
+      - url: ' https://bus-api.blablacar.com/'
+        type: Documentation
     description: >-
       We assume that you are already familiar with BlaBlaCar Bus which operates
       coach services in Europe. We also assume that you have some experience
       with programming, including communicating with HTTP endpoints. 
-    humanURL: ' https://bus-api.blablacar.com/'
-    tags:
-      - API
-    properties:
-      - type: Documentation
-        url: ' https://bus-api.blablacar.com/'
+name: BlaBlaCar Bus API
+tags:
+  - Buses
+  - Transportation
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+access: 3rd-Party
+created: '2024-11-14'
+modified: '2024-12-14'
+position: Consumer
+description: >-
+  We assume that you are already familiar with BlaBlaCar Bus which operates
+  coach services in Europe. We also assume that you have some experience with
+  programming, including communicating with HTTP endpoints. 
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
+specificationVersion: '0.19'
