@@ -11,9 +11,9 @@ apis:
       - url: ' https://bus-api.blablacar.com/'
         type: Documentation
     description: >-
-      We assume that you are already familiar with BlaBlaCar Bus which operates
-      coach services in Europe. We also assume that you have some experience
-      with programming, including communicating with HTTP endpoints. 
+      We assume that you are already familiar with BlaBlaCar Bus which operates coach
+      services in Europe. We also assume that you have some experience with programming,
+      including communicating with HTTP endpoints.
 name: BlaBlaCar Bus API
 tags:
   - Buses
@@ -25,9 +25,9 @@ created: '2024-11-14'
 modified: '2026-03-16'
 position: Consumer
 description: >-
-  We assume that you are already familiar with BlaBlaCar Bus which operates
-  coach services in Europe. We also assume that you have some experience with
-  programming, including communicating with HTTP endpoints. 
+  We assume that you are already familiar with BlaBlaCar Bus which operates coach
+  services in Europe. We also assume that you have some experience with programming,
+  including communicating with HTTP endpoints.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
