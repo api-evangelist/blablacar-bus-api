@@ -1,0 +1,11 @@
+{
+  "id": "trip-500123",
+  "route_id": "route-paris-lyon",
+  "departure_datetime": "2025-06-15T07:00:00Z",
+  "arrival_datetime": "2025-06-15T10:00:00Z",
+  "available_seats": 24,
+  "price": {
+    "amount": 1299,
+    "currency": "EUR"
+  }
+}

@@ -1,0 +1,327 @@
+naftiko: "1.0.0-alpha1"
+
+info:
+  label: BlaBlaCar Bus API
+  description: REST API for coach booking, route search, seat availability, and ticket management on the BlaBlaCar Bus network across Europe.
+  tags:
+    - Booking
+    - Buses
+    - Coach
+    - Europe
+    - Ticketing
+    - Transportation
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+binds:
+  - namespace: env
+    keys:
+      BLABLACAR_BUS_API_KEY: BLABLACAR_BUS_API_KEY
+
+capability:
+  consumes:
+    - type: http
+      namespace: blablacar-bus
+      baseUri: https://bus-api.blablacar.com/v1
+      description: BlaBlaCar Bus booking and route API
+      authentication:
+        type: apikey
+        key: X-API-Key
+        value: "{{BLABLACAR_BUS_API_KEY}}"
+        placement: header
+      resources:
+        - name: routes
+          path: /routes
+          description: Available coach routes
+          operations:
+            - name: list-routes
+              method: GET
+              description: List available coach routes filtered by origin and destination station
+              inputParameters:
+                - name: from_id
+                  in: query
+                  type: string
+                  required: false
+                  description: Origin station identifier
+                - name: to_id
+                  in: query
+                  type: string
+                  required: false
+                  description: Destination station identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: trips
+          path: /trips
+          description: Trip search and availability
+          operations:
+            - name: search-trips
+              method: GET
+              description: Search for available trips between stations on a given date
+              inputParameters:
+                - name: from_station_id
+                  in: query
+                  type: string
+                  required: true
+                  description: Origin station identifier
+                - name: to_station_id
+                  in: query
+                  type: string
+                  required: true
+                  description: Destination station identifier
+                - name: departure_date
+                  in: query
+                  type: string
+                  required: true
+                  description: Departure date in YYYY-MM-DD format
+                - name: passengers
+                  in: query
+                  type: integer
+                  required: false
+                  description: Number of passengers
+                - name: currency
+                  in: query
+                  type: string
+                  required: false
+                  description: Preferred currency code
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: bookings
+          path: /bookings
+          description: Booking creation and management
+          operations:
+            - name: create-booking
+              method: POST
+              description: Create a confirmed booking for passengers on a trip
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+              body:
+                type: json
+                data:
+                  trip_id: "{{tools.trip_id}}"
+                  currency: "{{tools.currency}}"
+                  partner_reference: "{{tools.partner_reference}}"
+
+            - name: get-booking
+              method: GET
+              description: Retrieve booking details by booking ID
+              inputParameters:
+                - name: booking_id
+                  in: path
+                  type: string
+                  required: true
+                  description: Unique booking identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+            - name: cancel-booking
+              method: DELETE
+              description: Cancel an existing booking
+              inputParameters:
+                - name: booking_id
+                  in: path
+                  type: string
+                  required: true
+                  description: Unique booking identifier to cancel
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: tickets
+          path: /tickets
+          description: Ticket retrieval
+          operations:
+            - name: get-ticket
+              method: GET
+              description: Retrieve electronic ticket with QR code
+              inputParameters:
+                - name: ticket_id
+                  in: path
+                  type: string
+                  required: true
+                  description: Unique ticket identifier
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+        - name: stations
+          path: /stations
+          description: Station information
+          operations:
+            - name: list-stations
+              method: GET
+              description: List all stations in the BlaBlaCar Bus network
+              inputParameters:
+                - name: country_code
+                  in: query
+                  type: string
+                  required: false
+                  description: Filter by country code
+                - name: query
+                  in: query
+                  type: string
+                  required: false
+                  description: Search stations by name or city
+              outputRawFormat: json
+              outputParameters:
+                - name: result
+                  type: object
+                  value: "$."
+
+  exposes:
+    - type: rest
+      port: 8100
+      namespace: blablacar-bus-rest
+      resources:
+        - path: /v1/routes
+          name: routes
+          description: Available coach routes
+          operations:
+            - method: GET
+              name: list-routes
+              description: List available coach routes
+              call: "blablacar-bus.list-routes"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/trips
+          name: trips
+          description: Search available trips
+          operations:
+            - method: GET
+              name: search-trips
+              description: Search trips between stations
+              call: "blablacar-bus.search-trips"
+              with:
+                from_station_id: "rest.from_station_id"
+                to_station_id: "rest.to_station_id"
+                departure_date: "rest.departure_date"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/bookings
+          name: bookings
+          description: Booking creation
+          operations:
+            - method: POST
+              name: create-booking
+              description: Create a new booking
+              call: "blablacar-bus.create-booking"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+        - path: /v1/stations
+          name: stations
+          description: Station information
+          operations:
+            - method: GET
+              name: list-stations
+              description: List stations
+              call: "blablacar-bus.list-stations"
+              outputParameters:
+                - type: object
+                  mapping: "$."
+
+    - type: mcp
+      port: 9100
+      namespace: blablacar-bus-mcp
+      transport: http
+      tools:
+        - name: list-routes
+          description: List available BlaBlaCar Bus coach routes between stations
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "blablacar-bus.list-routes"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: search-trips
+          description: Search for available coach trips between two stations on a given date with pricing and seat availability
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "blablacar-bus.search-trips"
+          with:
+            from_station_id: "tools.from_station_id"
+            to_station_id: "tools.to_station_id"
+            departure_date: "tools.departure_date"
+            passengers: "tools.passengers"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: create-booking
+          description: Create a confirmed coach booking for one or more passengers on a specific trip
+          hints:
+            readOnly: false
+            openWorld: false
+          call: "blablacar-bus.create-booking"
+          with:
+            trip_id: "tools.trip_id"
+            currency: "tools.currency"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-booking
+          description: Retrieve details of an existing BlaBlaCar Bus booking
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "blablacar-bus.get-booking"
+          with:
+            booking_id: "tools.booking_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: cancel-booking
+          description: Cancel an existing BlaBlaCar Bus booking
+          hints:
+            readOnly: false
+            destructive: true
+            idempotent: true
+          call: "blablacar-bus.cancel-booking"
+          with:
+            booking_id: "tools.booking_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: get-ticket
+          description: Retrieve electronic ticket with QR code for a passenger
+          hints:
+            readOnly: true
+            openWorld: false
+          call: "blablacar-bus.get-ticket"
+          with:
+            ticket_id: "tools.ticket_id"
+          outputParameters:
+            - type: object
+              mapping: "$."
+        - name: list-stations
+          description: List all stations in the BlaBlaCar Bus network, optionally filtered by country or search query
+          hints:
+            readOnly: true
+            openWorld: true
+          call: "blablacar-bus.list-stations"
+          with:
+            country_code: "tools.country_code"
+            query: "tools.query"
+          outputParameters:
+            - type: object
+              mapping: "$."

@@ -1,0 +1,203 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: BlaBlaCar Bus API
+  description: Unified taxonomy mapping operational and capability dimensions of the BlaBlaCar Bus API for coach booking across Europe.
+  created: "2026-04-19"
+  modified: "2026-04-19"
+
+operational:
+  apis:
+    - namespace: blablacar-bus
+      version: "1.0"
+      baseUrl: https://bus-api.blablacar.com/v1
+      status: active
+      description: Coach booking and route search API for European bus network
+
+  resources:
+    - name: routes
+      description: Available coach routes between station pairs
+      api: blablacar-bus
+      actions: [list]
+    - name: trips
+      description: Specific coach departures with pricing and availability
+      api: blablacar-bus
+      actions: [search]
+    - name: bookings
+      description: Coach booking records for passengers
+      api: blablacar-bus
+      actions: [create, get, cancel]
+    - name: tickets
+      description: Electronic tickets with QR codes for passengers
+      api: blablacar-bus
+      actions: [get]
+    - name: stations
+      description: Coach stations in the BlaBlaCar Bus network
+      api: blablacar-bus
+      actions: [list]
+
+  actions:
+    - name: list
+      description: Retrieve a list of resources
+      httpMethod: GET
+      pattern: read
+    - name: search
+      description: Search for resources matching criteria
+      httpMethod: GET
+      pattern: query
+    - name: create
+      description: Create a new resource
+      httpMethod: POST
+      pattern: write
+    - name: get
+      description: Retrieve a single resource by identifier
+      httpMethod: GET
+      pattern: read
+    - name: cancel
+      description: Cancel/delete an existing resource
+      httpMethod: DELETE
+      pattern: destructive
+
+  schemas:
+    core:
+      - name: Route
+        description: Coach route between origin and destination stations
+        key_properties: [id, from_station_id, to_station_id, duration_minutes, distance_km]
+      - name: Trip
+        description: Specific departure with pricing and seat availability
+        key_properties: [id, route_id, departure_datetime, arrival_datetime, available_seats, price]
+      - name: Booking
+        description: Confirmed reservation for passengers
+        key_properties: [booking_id, status, total_price, tickets, partner_reference]
+      - name: Ticket
+        description: Electronic ticket with QR code for passenger validation
+        key_properties: [ticket_id, booking_id, passenger_name, departure_datetime, seat_number, status, qr_code]
+      - name: Station
+        description: Coach station with location and address
+        key_properties: [id, name, city, country_code, latitude, longitude]
+      - name: Passenger
+        description: Passenger details for booking
+        key_properties: [first_name, last_name, email, phone]
+
+  parameters:
+    identifiers:
+      - name: booking_id
+        type: string
+        description: Unique booking identifier
+      - name: ticket_id
+        type: string
+        description: Unique ticket identifier
+    filters:
+      - name: from_station_id
+        type: string
+        description: Origin station filter
+      - name: to_station_id
+        type: string
+        description: Destination station filter
+      - name: departure_date
+        type: string
+        description: Travel date filter
+      - name: country_code
+        type: string
+        description: Country code filter for stations
+      - name: passengers
+        type: integer
+        description: Number of passengers
+
+  enums:
+    bookingStatuses:
+      - value: confirmed
+        description: Booking is confirmed and active
+      - value: pending
+        description: Booking is pending confirmation
+      - value: cancelled
+        description: Booking has been cancelled
+    ticketStatuses:
+      - value: valid
+        description: Ticket is valid for travel
+      - value: used
+        description: Ticket has been used for travel
+      - value: cancelled
+        description: Ticket has been cancelled
+
+  authentication:
+    schemes:
+      - type: apikey
+        description: API key passed in X-API-Key header, provided through BlaBlaCar Bus partner program
+        apis: [blablacar-bus]
+
+capability:
+  workflows:
+    - name: BlaBlaCar Bus Booking
+      file: capabilities/blablacar-bus-booking.yaml
+      description: End-to-end coach booking workflow for OTAs and travel aggregators
+      apis: [BlaBlaCar Bus API]
+      tools: 7
+      personas: [Travel Agent, Corporate Travel Manager, OTA Developer, Traveler]
+      domains: [Booking, Transportation]
+
+  personas:
+    - id: travel-agent
+      name: Travel Agent
+      description: Books coach tickets for customers as part of multi-modal travel itineraries
+      workflows: [BlaBlaCar Bus Booking]
+    - id: corporate-travel-manager
+      name: Corporate Travel Manager
+      description: Books affordable intercity coach travel for business travelers
+      workflows: [BlaBlaCar Bus Booking]
+    - id: ota-developer
+      name: OTA Developer
+      description: Integrates BlaBlaCar Bus into travel booking platforms and aggregators
+      workflows: [BlaBlaCar Bus Booking]
+    - id: traveler
+      name: Traveler
+      description: Books and manages coach trips via partner platforms
+      workflows: [BlaBlaCar Bus Booking]
+
+  domains:
+    - name: Booking
+      description: Creating and managing coach reservations
+      resources: [bookings, tickets]
+      workflows: [BlaBlaCar Bus Booking]
+    - name: Transportation
+      description: Route search, trip availability, and station data
+      resources: [routes, trips, stations]
+      workflows: [BlaBlaCar Bus Booking]
+
+  namespaces:
+    - name: blablacar-bus
+      type: consumed
+      baseUri: https://bus-api.blablacar.com/v1
+    - name: blablacar-bus-booking-api
+      type: rest-exposed
+      port: 8080
+    - name: blablacar-bus-booking-mcp
+      type: mcp-exposed
+      port: 9090
+
+  binds:
+    - name: BLABLACAR_BUS_API_KEY
+      description: API key for BlaBlaCar Bus partner program authentication
+      workflows: [BlaBlaCar Bus Booking]
+
+crossReference:
+  - resource: routes
+    operations: [list]
+    workflows: [BlaBlaCar Bus Booking]
+    personas: [Travel Agent, OTA Developer, Corporate Travel Manager]
+  - resource: trips
+    operations: [search]
+    workflows: [BlaBlaCar Bus Booking]
+    personas: [Travel Agent, OTA Developer, Corporate Travel Manager, Traveler]
+  - resource: bookings
+    operations: [create, get, cancel]
+    workflows: [BlaBlaCar Bus Booking]
+    personas: [Travel Agent, OTA Developer, Corporate Travel Manager, Traveler]
+  - resource: tickets
+    operations: [get]
+    workflows: [BlaBlaCar Bus Booking]
+    personas: [Travel Agent, Traveler]
+  - resource: stations
+    operations: [list]
+    workflows: [BlaBlaCar Bus Booking]
+    personas: [Travel Agent, OTA Developer, Corporate Travel Manager]

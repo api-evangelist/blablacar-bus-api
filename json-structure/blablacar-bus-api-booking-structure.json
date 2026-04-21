@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/blablacar-bus-api/refs/heads/main/json-structure/blablacar-bus-api-booking-structure.json",
+  "name": "Booking",
+  "description": "A confirmed booking for one or more passengers on a BlaBlaCar Bus trip",
+  "required": [
+    "booking_id",
+    "status"
+  ],
+  "type": "object",
+  "properties": {
+    "booking_id": {
+      "description": "Unique booking identifier",
+      "type": "string",
+      "example": "booking-500123"
+    },
+    "status": {
+      "description": "Current booking status",
+      "enum": [
+        "confirmed",
+        "pending",
+        "cancelled"
+      ],
+      "type": "string",
+      "example": "confirmed"
+    },
+    "partner_reference": {
+      "description": "Partner's own reference identifier",
+      "type": "string",
+      "example": "booking-ref-abc123"
+    },
+    "total_price": {
+      "description": "Total booking price",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "int32",
+          "example": 1299
+        },
+        "currency": {
+          "type": "string",
+          "example": "EUR"
+        }
+      }
+    }
+  }
+}

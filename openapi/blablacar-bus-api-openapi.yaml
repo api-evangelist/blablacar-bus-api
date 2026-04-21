@@ -1,0 +1,664 @@
+openapi: 3.0.3
+info:
+  title: BlaBlaCar Bus API
+  description: >-
+    REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking
+    platform across Europe. Enables partners to search routes, check seat availability,
+    create bookings, manage tickets, and access station information.
+  version: '1.0'
+  contact:
+    name: BlaBlaCar Bus API Support
+    url: https://bus-api.blablacar.com/
+  x-generated-from: documentation
+servers:
+  - url: https://bus-api.blablacar.com/v1
+    description: Production Server
+tags:
+  - name: Routes
+    description: Search and browse available coach routes
+  - name: Trips
+    description: Search trip availability and pricing
+  - name: Bookings
+    description: Create and manage bookings
+  - name: Tickets
+    description: Retrieve and manage passenger tickets
+  - name: Stations
+    description: Access station information
+security:
+  - apiKeyAuth: []
+paths:
+  /routes:
+    get:
+      operationId: listRoutes
+      summary: BlaBlaCar Bus List Available Routes
+      description: >-
+        List available coach routes in the BlaBlaCar Bus network, filtered by origin
+        and destination station codes or geographic coordinates.
+      tags:
+        - Routes
+      parameters:
+        - name: from_id
+          in: query
+          description: Origin station identifier
+          schema:
+            type: string
+          example: FRTLS
+        - name: to_id
+          in: query
+          description: Destination station identifier
+          schema:
+            type: string
+          example: FRLYO
+      responses:
+        '200':
+          description: List of available routes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteListResponse'
+              examples:
+                ListRoutes200Example:
+                  summary: Default listRoutes 200 response
+                  x-microcks-default: true
+                  value:
+                    routes:
+                      - id: route-paris-lyon
+                        from_station_id: FRTLS
+                        to_station_id: FRLYO
+                        duration_minutes: 180
+                        distance_km: 465
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable Entity - invalid parameters
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /trips:
+    get:
+      operationId: searchTrips
+      summary: BlaBlaCar Bus Search Available Trips
+      description: >-
+        Search for available coach trips between two stations on a given date, returning
+        departure times, seat availability, pricing, and trip identifiers.
+      tags:
+        - Trips
+      parameters:
+        - name: from_station_id
+          in: query
+          required: true
+          description: Origin station identifier
+          schema:
+            type: string
+          example: FRTLS
+        - name: to_station_id
+          in: query
+          required: true
+          description: Destination station identifier
+          schema:
+            type: string
+          example: FRLYO
+        - name: departure_date
+          in: query
+          required: true
+          description: Departure date in YYYY-MM-DD format
+          schema:
+            type: string
+            format: date
+          example: '2025-06-15'
+        - name: passengers
+          in: query
+          description: Number of passengers
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 9
+          example: 2
+        - name: currency
+          in: query
+          description: Currency code for pricing (ISO 4217)
+          schema:
+            type: string
+          example: EUR
+      responses:
+        '200':
+          description: Available trips matching search criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripListResponse'
+              examples:
+                SearchTrips200Example:
+                  summary: Default searchTrips 200 response
+                  x-microcks-default: true
+                  value:
+                    trips:
+                      - id: trip-500123
+                        route_id: route-paris-lyon
+                        departure_datetime: '2025-06-15T07:00:00Z'
+                        arrival_datetime: '2025-06-15T10:00:00Z'
+                        available_seats: 24
+                        price:
+                          amount: 1299
+                          currency: EUR
+        '400':
+          description: Bad Request - invalid search parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /bookings:
+    post:
+      operationId: createBooking
+      summary: BlaBlaCar Bus Create Booking
+      description: >-
+        Create a confirmed booking for one or more passengers on a specific trip.
+        Returns booking confirmation with ticket identifiers and electronic ticket data.
+      tags:
+        - Bookings
+      requestBody:
+        required: true
+        description: Booking creation request with trip, passenger, and payment details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+            examples:
+              CreateBookingRequestExample:
+                summary: Default createBooking request
+                x-microcks-default: true
+                value:
+                  trip_id: trip-500123
+                  passengers:
+                    - first_name: Jane
+                      last_name: Smith
+                      email: jsmith@example.com
+                      phone: '+33600000000'
+                  currency: EUR
+                  partner_reference: booking-ref-abc123
+      responses:
+        '201':
+          description: Booking created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+              examples:
+                CreateBooking201Example:
+                  summary: Default createBooking 201 response
+                  x-microcks-default: true
+                  value:
+                    booking_id: booking-500123
+                    status: confirmed
+                    total_price:
+                      amount: 1299
+                      currency: EUR
+                    tickets:
+                      - ticket_id: ticket-500123
+                        passenger_name: Jane Smith
+                        qr_code: data:image/png;base64,abc123
+        '400':
+          description: Bad Request - invalid booking parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '409':
+          description: Conflict - trip no longer has available seats
+        '422':
+          description: Unprocessable Entity - passenger validation failed
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /bookings/{booking_id}:
+    get:
+      operationId: getBooking
+      summary: BlaBlaCar Bus Get Booking
+      description: Retrieve details of an existing booking by its identifier.
+      tags:
+        - Bookings
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          description: Unique booking identifier
+          schema:
+            type: string
+          example: booking-500123
+      responses:
+        '200':
+          description: Booking details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+              examples:
+                GetBooking200Example:
+                  summary: Default getBooking 200 response
+                  x-microcks-default: true
+                  value:
+                    booking_id: booking-500123
+                    status: confirmed
+                    total_price:
+                      amount: 1299
+                      currency: EUR
+        '401':
+          description: Unauthorized
+        '404':
+          description: Booking not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+    delete:
+      operationId: cancelBooking
+      summary: BlaBlaCar Bus Cancel Booking
+      description: Cancel an existing booking. Cancellation policies and refund eligibility depend on the fare type.
+      tags:
+        - Bookings
+      parameters:
+        - name: booking_id
+          in: path
+          required: true
+          description: Unique booking identifier to cancel
+          schema:
+            type: string
+          example: booking-500123
+      responses:
+        '200':
+          description: Booking cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancellationResponse'
+              examples:
+                CancelBooking200Example:
+                  summary: Default cancelBooking 200 response
+                  x-microcks-default: true
+                  value:
+                    booking_id: booking-500123
+                    status: cancelled
+                    refund_amount:
+                      amount: 1299
+                      currency: EUR
+        '401':
+          description: Unauthorized
+        '404':
+          description: Booking not found
+        '422':
+          description: Booking cannot be cancelled (non-refundable or past departure)
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /tickets/{ticket_id}:
+    get:
+      operationId: getTicket
+      summary: BlaBlaCar Bus Get Ticket
+      description: Retrieve electronic ticket details including QR code and passenger information for a specific ticket.
+      tags:
+        - Tickets
+      parameters:
+        - name: ticket_id
+          in: path
+          required: true
+          description: Unique ticket identifier
+          schema:
+            type: string
+          example: ticket-500123
+      responses:
+        '200':
+          description: Ticket details with QR code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+              examples:
+                GetTicket200Example:
+                  summary: Default getTicket 200 response
+                  x-microcks-default: true
+                  value:
+                    ticket_id: ticket-500123
+                    booking_id: booking-500123
+                    passenger_name: Jane Smith
+                    departure_datetime: '2025-06-15T07:00:00Z'
+                    from_station: Paris Bercy
+                    to_station: Lyon Perrache
+                    seat_number: '14A'
+                    status: valid
+                    qr_code: data:image/png;base64,abc123
+        '401':
+          description: Unauthorized
+        '404':
+          description: Ticket not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+  /stations:
+    get:
+      operationId: listStations
+      summary: BlaBlaCar Bus List Stations
+      description: List all stations in the BlaBlaCar Bus network with location and facility information.
+      tags:
+        - Stations
+      parameters:
+        - name: country_code
+          in: query
+          description: Filter stations by ISO 3166-1 alpha-2 country code
+          schema:
+            type: string
+          example: FR
+        - name: query
+          in: query
+          description: Search stations by name or city
+          schema:
+            type: string
+          example: Paris
+      responses:
+        '200':
+          description: List of stations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StationListResponse'
+              examples:
+                ListStations200Example:
+                  summary: Default listStations 200 response
+                  x-microcks-default: true
+                  value:
+                    stations:
+                      - id: FRTLS
+                        name: Paris Bercy
+                        city: Paris
+                        country_code: FR
+                        latitude: 48.8397
+                        longitude: 2.3826
+        '401':
+          description: Unauthorized
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key provided by BlaBlaCar Bus partner program
+
+  schemas:
+    RouteListResponse:
+      type: object
+      description: Response containing a list of available coach routes
+      properties:
+        routes:
+          type: array
+          description: List of available routes
+          items:
+            $ref: '#/components/schemas/Route'
+
+    Route:
+      type: object
+      description: A coach route between two stations
+      properties:
+        id:
+          type: string
+          description: Unique route identifier
+          example: route-paris-lyon
+        from_station_id:
+          type: string
+          description: Origin station identifier
+          example: FRTLS
+        to_station_id:
+          type: string
+          description: Destination station identifier
+          example: FRLYO
+        duration_minutes:
+          type: integer
+          description: Typical route duration in minutes
+          example: 180
+        distance_km:
+          type: integer
+          description: Route distance in kilometers
+          example: 465
+
+    TripListResponse:
+      type: object
+      description: Response containing a list of available trips
+      properties:
+        trips:
+          type: array
+          description: List of available trips
+          items:
+            $ref: '#/components/schemas/Trip'
+
+    Trip:
+      type: object
+      description: A specific coach departure on a route
+      properties:
+        id:
+          type: string
+          description: Unique trip identifier
+          example: trip-500123
+        route_id:
+          type: string
+          description: Associated route identifier
+          example: route-paris-lyon
+        departure_datetime:
+          type: string
+          format: date-time
+          description: Departure date and time in ISO 8601 format
+          example: '2025-06-15T07:00:00Z'
+        arrival_datetime:
+          type: string
+          format: date-time
+          description: Arrival date and time in ISO 8601 format
+          example: '2025-06-15T10:00:00Z'
+        available_seats:
+          type: integer
+          description: Number of seats currently available
+          example: 24
+        price:
+          $ref: '#/components/schemas/Price'
+
+    Price:
+      type: object
+      description: Monetary amount with currency
+      properties:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: EUR
+
+    BookingRequest:
+      type: object
+      description: Request body for creating a new booking
+      required:
+        - trip_id
+        - passengers
+      properties:
+        trip_id:
+          type: string
+          description: Identifier of the trip to book
+          example: trip-500123
+        passengers:
+          type: array
+          description: List of passenger details
+          items:
+            $ref: '#/components/schemas/Passenger'
+        currency:
+          type: string
+          description: Preferred currency for pricing (ISO 4217)
+          example: EUR
+        partner_reference:
+          type: string
+          description: Partner's own reference identifier for the booking
+          example: booking-ref-abc123
+
+    Passenger:
+      type: object
+      description: Passenger details for a booking
+      required:
+        - first_name
+        - last_name
+        - email
+      properties:
+        first_name:
+          type: string
+          description: Passenger's first name
+          example: Jane
+        last_name:
+          type: string
+          description: Passenger's last name
+          example: Smith
+        email:
+          type: string
+          format: email
+          description: Passenger's email address for ticket delivery
+          example: jsmith@example.com
+        phone:
+          type: string
+          description: Passenger's phone number in E.164 format
+          example: '+33600000000'
+
+    BookingResponse:
+      type: object
+      description: Booking confirmation response
+      properties:
+        booking_id:
+          type: string
+          description: Unique booking identifier
+          example: booking-500123
+        status:
+          type: string
+          description: Current booking status
+          enum:
+            - confirmed
+            - pending
+            - cancelled
+          example: confirmed
+        total_price:
+          $ref: '#/components/schemas/Price'
+        tickets:
+          type: array
+          description: List of tickets created for this booking
+          items:
+            $ref: '#/components/schemas/Ticket'
+        partner_reference:
+          type: string
+          description: Partner's reference identifier
+          example: booking-ref-abc123
+
+    CancellationResponse:
+      type: object
+      description: Booking cancellation confirmation
+      properties:
+        booking_id:
+          type: string
+          description: Identifier of the cancelled booking
+          example: booking-500123
+        status:
+          type: string
+          description: Updated booking status
+          enum:
+            - cancelled
+          example: cancelled
+        refund_amount:
+          $ref: '#/components/schemas/Price'
+
+    Ticket:
+      type: object
+      description: Electronic ticket for a passenger on a trip
+      properties:
+        ticket_id:
+          type: string
+          description: Unique ticket identifier
+          example: ticket-500123
+        booking_id:
+          type: string
+          description: Associated booking identifier
+          example: booking-500123
+        passenger_name:
+          type: string
+          description: Full name of the ticket holder
+          example: Jane Smith
+        departure_datetime:
+          type: string
+          format: date-time
+          description: Departure date and time
+          example: '2025-06-15T07:00:00Z'
+        from_station:
+          type: string
+          description: Departure station name
+          example: Paris Bercy
+        to_station:
+          type: string
+          description: Arrival station name
+          example: Lyon Perrache
+        seat_number:
+          type: string
+          description: Assigned seat number
+          example: 14A
+        status:
+          type: string
+          description: Current ticket status
+          enum:
+            - valid
+            - used
+            - cancelled
+          example: valid
+        qr_code:
+          type: string
+          description: Base64-encoded QR code image for ticket validation
+          example: data:image/png;base64,abc123
+
+    StationListResponse:
+      type: object
+      description: Response containing a list of stations
+      properties:
+        stations:
+          type: array
+          description: List of stations
+          items:
+            $ref: '#/components/schemas/Station'
+
+    Station:
+      type: object
+      description: A coach station in the BlaBlaCar Bus network
+      properties:
+        id:
+          type: string
+          description: Unique station identifier
+          example: FRTLS
+        name:
+          type: string
+          description: Station name
+          example: Paris Bercy
+        city:
+          type: string
+          description: City where the station is located
+          example: Paris
+        country_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+          example: FR
+        latitude:
+          type: number
+          description: Geographic latitude of the station
+          example: 48.8397
+        longitude:
+          type: number
+          description: Geographic longitude of the station
+          example: 2.3826
+        address:
+          type: string
+          description: Full street address of the station
+          example: 210 Quai de Bercy, 75012 Paris

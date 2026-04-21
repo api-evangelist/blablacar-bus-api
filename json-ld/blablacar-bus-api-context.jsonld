@@ -1,0 +1,100 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "bbc": "https://bus-api.blablacar.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "booking_id": {
+      "@id": "bbc:booking_id",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "bbc:status",
+      "@type": "xsd:string"
+    },
+    "partner_reference": {
+      "@id": "bbc:partner_reference",
+      "@type": "xsd:string"
+    },
+    "total_price": {
+      "@id": "bbc:total_price"
+    },
+    "amount": {
+      "@id": "bbc:amount",
+      "@type": "xsd:integer"
+    },
+    "currency": {
+      "@id": "bbc:currency",
+      "@type": "xsd:string"
+    },
+    "id": {
+      "@id": "bbc:id",
+      "@type": "xsd:string"
+    },
+    "from_station_id": {
+      "@id": "bbc:from_station_id",
+      "@type": "xsd:string"
+    },
+    "to_station_id": {
+      "@id": "bbc:to_station_id",
+      "@type": "xsd:string"
+    },
+    "duration_minutes": {
+      "@id": "bbc:duration_minutes",
+      "@type": "xsd:integer"
+    },
+    "distance_km": {
+      "@id": "bbc:distance_km",
+      "@type": "xsd:integer"
+    },
+    "name": "schema:name",
+    "city": "schema:addressLocality",
+    "country_code": "schema:addressCountry",
+    "latitude": "schema:latitude",
+    "longitude": "schema:longitude",
+    "address": "schema:address",
+    "ticket_id": {
+      "@id": "bbc:ticket_id",
+      "@type": "xsd:string"
+    },
+    "passenger_name": {
+      "@id": "bbc:passenger_name",
+      "@type": "xsd:string"
+    },
+    "departure_datetime": "schema:departureTime",
+    "from_station": {
+      "@id": "bbc:from_station",
+      "@type": "xsd:string"
+    },
+    "to_station": {
+      "@id": "bbc:to_station",
+      "@type": "xsd:string"
+    },
+    "seat_number": {
+      "@id": "bbc:seat_number",
+      "@type": "xsd:string"
+    },
+    "qr_code": {
+      "@id": "bbc:qr_code",
+      "@type": "xsd:string"
+    },
+    "route_id": {
+      "@id": "bbc:route_id",
+      "@type": "xsd:string"
+    },
+    "arrival_datetime": "schema:arrivalTime",
+    "available_seats": {
+      "@id": "bbc:available_seats",
+      "@type": "xsd:integer"
+    },
+    "price": {
+      "@id": "bbc:price"
+    },
+    "Booking": "bbc:Booking",
+    "Route": "bbc:Route",
+    "Station": "bbc:Station",
+    "Ticket": "bbc:Ticket",
+    "Trip": "bbc:Trip"
+  }
+}

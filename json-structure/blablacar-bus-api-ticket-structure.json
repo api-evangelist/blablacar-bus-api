@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/blablacar-bus-api/refs/heads/main/json-structure/blablacar-bus-api-ticket-structure.json",
+  "name": "Ticket",
+  "description": "Electronic ticket for a passenger on a BlaBlaCar Bus trip",
+  "required": [
+    "ticket_id",
+    "booking_id",
+    "passenger_name"
+  ],
+  "type": "object",
+  "properties": {
+    "ticket_id": {
+      "description": "Unique ticket identifier",
+      "type": "string",
+      "example": "ticket-500123"
+    },
+    "booking_id": {
+      "description": "Associated booking identifier",
+      "type": "string",
+      "example": "booking-500123"
+    },
+    "passenger_name": {
+      "description": "Full name of the ticket holder",
+      "type": "string",
+      "example": "Jane Smith"
+    },
+    "departure_datetime": {
+      "description": "Departure date and time",
+      "type": "datetime",
+      "example": "2025-06-15T07:00:00Z"
+    },
+    "from_station": {
+      "description": "Departure station name",
+      "type": "string",
+      "example": "Paris Bercy"
+    },
+    "to_station": {
+      "description": "Arrival station name",
+      "type": "string",
+      "example": "Lyon Perrache"
+    },
+    "seat_number": {
+      "description": "Assigned seat number",
+      "type": "string",
+      "example": "14A"
+    },
+    "status": {
+      "description": "Current ticket status",
+      "enum": [
+        "valid",
+        "used",
+        "cancelled"
+      ],
+      "type": "string",
+      "example": "valid"
+    },
+    "qr_code": {
+      "description": "Base64-encoded QR code image",
+      "type": "string",
+      "example": "data:image/png;base64,abc123"
+    }
+  }
+}

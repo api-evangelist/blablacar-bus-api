@@ -1,0 +1,9 @@
+{
+  "booking_id": "booking-500123",
+  "status": "confirmed",
+  "partner_reference": "booking-ref-abc123",
+  "total_price": {
+    "amount": 1299,
+    "currency": "EUR"
+  }
+}

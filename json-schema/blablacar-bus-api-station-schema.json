@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/blablacar-bus-api/refs/heads/main/json-schema/blablacar-bus-api-station-schema.json",
+  "title": "Station",
+  "description": "A coach station in the BlaBlaCar Bus network",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique station identifier",
+      "example": "FRTLS"
+    },
+    "name": {
+      "type": "string",
+      "description": "Station name",
+      "example": "Paris Bercy"
+    },
+    "city": {
+      "type": "string",
+      "description": "City where the station is located",
+      "example": "Paris"
+    },
+    "country_code": {
+      "type": "string",
+      "description": "ISO 3166-1 alpha-2 country code",
+      "example": "FR"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "Geographic latitude",
+      "example": 48.8397
+    },
+    "longitude": {
+      "type": "number",
+      "description": "Geographic longitude",
+      "example": 2.3826
+    },
+    "address": {
+      "type": "string",
+      "description": "Full street address",
+      "example": "210 Quai de Bercy, 75012 Paris"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "city",
+    "country_code"
+  ]
+}

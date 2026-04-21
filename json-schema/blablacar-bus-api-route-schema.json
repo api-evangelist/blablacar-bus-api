@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/blablacar-bus-api/refs/heads/main/json-schema/blablacar-bus-api-route-schema.json",
+  "title": "Route",
+  "description": "A coach route between two stations in the BlaBlaCar Bus network",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique route identifier",
+      "example": "route-paris-lyon"
+    },
+    "from_station_id": {
+      "type": "string",
+      "description": "Origin station identifier",
+      "example": "FRTLS"
+    },
+    "to_station_id": {
+      "type": "string",
+      "description": "Destination station identifier",
+      "example": "FRLYO"
+    },
+    "duration_minutes": {
+      "type": "integer",
+      "description": "Typical route duration in minutes",
+      "example": 180
+    },
+    "distance_km": {
+      "type": "integer",
+      "description": "Route distance in kilometers",
+      "example": 465
+    }
+  },
+  "required": [
+    "id",
+    "from_station_id",
+    "to_station_id"
+  ]
+}

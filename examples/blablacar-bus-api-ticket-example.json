@@ -1,0 +1,11 @@
+{
+  "ticket_id": "ticket-500123",
+  "booking_id": "booking-500123",
+  "passenger_name": "Jane Smith",
+  "departure_datetime": "2025-06-15T07:00:00Z",
+  "from_station": "Paris Bercy",
+  "to_station": "Lyon Perrache",
+  "seat_number": "14A",
+  "status": "valid",
+  "qr_code": "data:image/png;base64,abc123=="
+}

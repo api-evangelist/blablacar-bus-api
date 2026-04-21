@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/blablacar-bus-api/refs/heads/main/json-structure/blablacar-bus-api-trip-structure.json",
+  "name": "Trip",
+  "description": "A specific coach departure on a route with pricing and availability",
+  "required": [
+    "id",
+    "route_id",
+    "departure_datetime"
+  ],
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "Unique trip identifier",
+      "type": "string",
+      "example": "trip-500123"
+    },
+    "route_id": {
+      "description": "Associated route identifier",
+      "type": "string",
+      "example": "route-paris-lyon"
+    },
+    "departure_datetime": {
+      "description": "Departure date and time",
+      "type": "datetime",
+      "example": "2025-06-15T07:00:00Z"
+    },
+    "arrival_datetime": {
+      "description": "Arrival date and time",
+      "type": "datetime",
+      "example": "2025-06-15T10:00:00Z"
+    },
+    "available_seats": {
+      "description": "Number of seats currently available",
+      "type": "int32",
+      "example": 24
+    },
+    "price": {
+      "description": "Price with amount and currency",
+      "type": "object",
+      "properties": {
+        "amount": {
+          "type": "int32",
+          "example": 1299
+        },
+        "currency": {
+          "type": "string",
+          "example": "EUR"
+        }
+      }
+    }
+  }
+}

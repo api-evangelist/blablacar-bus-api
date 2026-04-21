@@ -1,0 +1,7 @@
+{
+  "id": "route-paris-lyon",
+  "from_station_id": "FRTLS",
+  "to_station_id": "FRLYO",
+  "duration_minutes": 180,
+  "distance_km": 465
+}

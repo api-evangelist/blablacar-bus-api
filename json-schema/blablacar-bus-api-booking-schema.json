@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/blablacar-bus-api/refs/heads/main/json-schema/blablacar-bus-api-booking-schema.json",
+  "title": "Booking",
+  "description": "A confirmed booking for one or more passengers on a BlaBlaCar Bus trip",
+  "type": "object",
+  "properties": {
+    "booking_id": {
+      "type": "string",
+      "description": "Unique booking identifier",
+      "example": "booking-500123"
+    },
+    "status": {
+      "type": "string",
+      "description": "Current booking status",
+      "enum": [
+        "confirmed",
+        "pending",
+        "cancelled"
+      ],
+      "example": "confirmed"
+    },
+    "partner_reference": {
+      "type": "string",
+      "description": "Partner's own reference identifier",
+      "example": "booking-ref-abc123"
+    },
+    "total_price": {
+      "type": "object",
+      "description": "Total booking price",
+      "properties": {
+        "amount": {
+          "type": "integer",
+          "example": 1299
+        },
+        "currency": {
+          "type": "string",
+          "example": "EUR"
+        }
+      }
+    }
+  },
+  "required": [
+    "booking_id",
+    "status"
+  ]
+}
