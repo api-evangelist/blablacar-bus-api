@@ -1,0 +1,87 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BlaBlaCar Bus API — Routes
+  description: 'BlaBlaCar Bus API — Routes. 1 operations. Lead operation: BlaBlaCar Bus List Available Routes. Self-contained
+    Naftiko capability covering one Blablacar Bus Api business surface.'
+  tags:
+  - Blablacar Bus Api
+  - Routes
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BLABLACAR_BUS_API_API_KEY: BLABLACAR_BUS_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: blablacar-bus-routes
+    baseUri: https://bus-api.blablacar.com/v1
+    description: BlaBlaCar Bus API — Routes business capability. Self-contained, no shared references.
+    resources:
+    - name: routes
+      path: /routes
+      operations:
+      - name: listroutes
+        method: GET
+        description: BlaBlaCar Bus List Available Routes
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: from_id
+          in: query
+          type: string
+          description: Origin station identifier
+        - name: to_id
+          in: query
+          type: string
+          description: Destination station identifier
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.BLABLACAR_BUS_API_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: blablacar-bus-routes-rest
+    port: 8080
+    description: REST adapter for BlaBlaCar Bus API — Routes. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/routes
+      name: routes
+      description: REST surface for routes.
+      operations:
+      - method: GET
+        name: listroutes
+        description: BlaBlaCar Bus List Available Routes
+        call: blablacar-bus-routes.listroutes
+        with:
+          from_id: rest.from_id
+          to_id: rest.to_id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: blablacar-bus-routes-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BlaBlaCar Bus API — Routes. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: blablacar-bus-list-available-routes
+      description: BlaBlaCar Bus List Available Routes
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: blablacar-bus-routes.listroutes
+      with:
+        from_id: tools.from_id
+        to_id: tools.to_id
+      outputParameters:
+      - type: object
+        mapping: $.

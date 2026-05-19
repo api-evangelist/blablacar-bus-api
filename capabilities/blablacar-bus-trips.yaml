@@ -1,0 +1,108 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BlaBlaCar Bus API — Trips
+  description: 'BlaBlaCar Bus API — Trips. 1 operations. Lead operation: BlaBlaCar Bus Search Available Trips. Self-contained
+    Naftiko capability covering one Blablacar Bus Api business surface.'
+  tags:
+  - Blablacar Bus Api
+  - Trips
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    BLABLACAR_BUS_API_API_KEY: BLABLACAR_BUS_API_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: blablacar-bus-trips
+    baseUri: https://bus-api.blablacar.com/v1
+    description: BlaBlaCar Bus API — Trips business capability. Self-contained, no shared references.
+    resources:
+    - name: trips
+      path: /trips
+      operations:
+      - name: searchtrips
+        method: GET
+        description: BlaBlaCar Bus Search Available Trips
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: from_station_id
+          in: query
+          type: string
+          description: Origin station identifier
+          required: true
+        - name: to_station_id
+          in: query
+          type: string
+          description: Destination station identifier
+          required: true
+        - name: departure_date
+          in: query
+          type: string
+          description: Departure date in YYYY-MM-DD format
+          required: true
+        - name: passengers
+          in: query
+          type: integer
+          description: Number of passengers
+        - name: currency
+          in: query
+          type: string
+          description: Currency code for pricing (ISO 4217)
+    authentication:
+      type: apikey
+      key: X-API-Key
+      value: '{{env.BLABLACAR_BUS_API_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: blablacar-bus-trips-rest
+    port: 8080
+    description: REST adapter for BlaBlaCar Bus API — Trips. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/trips
+      name: trips
+      description: REST surface for trips.
+      operations:
+      - method: GET
+        name: searchtrips
+        description: BlaBlaCar Bus Search Available Trips
+        call: blablacar-bus-trips.searchtrips
+        with:
+          from_station_id: rest.from_station_id
+          to_station_id: rest.to_station_id
+          departure_date: rest.departure_date
+          passengers: rest.passengers
+          currency: rest.currency
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: blablacar-bus-trips-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BlaBlaCar Bus API — Trips. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: blablacar-bus-search-available-trips
+      description: BlaBlaCar Bus Search Available Trips
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: blablacar-bus-trips.searchtrips
+      with:
+        from_station_id: tools.from_station_id
+        to_station_id: tools.to_station_id
+        departure_date: tools.departure_date
+        passengers: tools.passengers
+        currency: tools.currency
+      outputParameters:
+      - type: object
+        mapping: $.
