@@ -40,15 +40,15 @@ apis:
     url: https://bus-api.blablacar.com/
   - type: OpenAPI
     url: openapi/blablacar-bus-api-openapi.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-bookings.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-routes.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-stations.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-tickets.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-trips.yaml
 common:
 - type: LinkedIn
