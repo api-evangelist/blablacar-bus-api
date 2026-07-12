@@ -51,6 +51,12 @@ apis:
   - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-trips.yaml
 common:
+- type: VulnerabilityDisclosure
+  url: security/blablacar-bus-api-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/blablacar-bus-api-domain-security.yml
+- type: Authentication
+  url: authentication/blablacar-bus-api-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/blablacar
 - type: Website

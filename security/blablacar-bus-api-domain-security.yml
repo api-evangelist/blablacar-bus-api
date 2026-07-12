@@ -1,0 +1,24 @@
+generated: '2026-07-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.blablacar.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Aug  3 14:30:19 2026 GMT
+  hsts: false
+- host: bus-api.blablacar.com
+  https: false
+domains:
+- domain: blablacar.com
+  dnssec: true
+  caa:
+  - 0 issue "letsencrypt.org"
+  - 0 issuewild "digicert.com"
+  - 0 issue "awstrust.com"
+  - 0 issuewild "comodoca.com"
+  - 0 issue "sectigo.com"
+  - 0 iodef "mailto:dns-ops@comuto.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
