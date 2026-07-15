@@ -51,6 +51,8 @@ apis:
   - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-trips.yaml
 common:
+- type: AgenticAccess
+  url: agentic-access/blablacar-bus-api-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/blablacar-bus-api-vulnerability-disclosure.yml
 - type: DomainSecurity
