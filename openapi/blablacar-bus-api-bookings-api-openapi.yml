@@ -1,0 +1,313 @@
+openapi: 3.0.3
+info:
+  title: BlaBlaCar Bus Bookings API
+  description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
+  version: '1.0'
+  contact:
+    name: BlaBlaCar Bus API Support
+    url: https://bus-api.blablacar.com/
+  x-generated-from: documentation
+servers:
+- url: https://bus-api.blablacar.com/v1
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Bookings
+  description: Create and manage bookings
+paths:
+  /bookings:
+    post:
+      operationId: createBooking
+      summary: BlaBlaCar Bus Create Booking
+      description: Create a confirmed booking for one or more passengers on a specific trip. Returns booking confirmation with ticket identifiers and electronic ticket data.
+      tags:
+      - Bookings
+      requestBody:
+        required: true
+        description: Booking creation request with trip, passenger, and payment details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequest'
+            examples:
+              CreateBookingRequestExample:
+                summary: Default createBooking request
+                x-microcks-default: true
+                value:
+                  trip_id: trip-500123
+                  passengers:
+                  - first_name: Jane
+                    last_name: Smith
+                    email: jsmith@example.com
+                    phone: '+33600000000'
+                  currency: EUR
+                  partner_reference: booking-ref-abc123
+      responses:
+        '201':
+          description: Booking created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+              examples:
+                CreateBooking201Example:
+                  summary: Default createBooking 201 response
+                  x-microcks-default: true
+                  value:
+                    booking_id: booking-500123
+                    status: confirmed
+                    total_price:
+                      amount: 1299
+                      currency: EUR
+                    tickets:
+                    - ticket_id: ticket-500123
+                      passenger_name: Jane Smith
+                      qr_code: data:image/png;base64,abc123
+        '400':
+          description: Bad Request - invalid booking parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '409':
+          description: Conflict - trip no longer has available seats
+        '422':
+          description: Unprocessable Entity - passenger validation failed
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /bookings/{booking_id}:
+    get:
+      operationId: getBooking
+      summary: BlaBlaCar Bus Get Booking
+      description: Retrieve details of an existing booking by its identifier.
+      tags:
+      - Bookings
+      parameters:
+      - name: booking_id
+        in: path
+        required: true
+        description: Unique booking identifier
+        schema:
+          type: string
+        example: booking-500123
+      responses:
+        '200':
+          description: Booking details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponse'
+              examples:
+                GetBooking200Example:
+                  summary: Default getBooking 200 response
+                  x-microcks-default: true
+                  value:
+                    booking_id: booking-500123
+                    status: confirmed
+                    total_price:
+                      amount: 1299
+                      currency: EUR
+        '401':
+          description: Unauthorized
+        '404':
+          description: Booking not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: cancelBooking
+      summary: BlaBlaCar Bus Cancel Booking
+      description: Cancel an existing booking. Cancellation policies and refund eligibility depend on the fare type.
+      tags:
+      - Bookings
+      parameters:
+      - name: booking_id
+        in: path
+        required: true
+        description: Unique booking identifier to cancel
+        schema:
+          type: string
+        example: booking-500123
+      responses:
+        '200':
+          description: Booking cancelled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CancellationResponse'
+              examples:
+                CancelBooking200Example:
+                  summary: Default cancelBooking 200 response
+                  x-microcks-default: true
+                  value:
+                    booking_id: booking-500123
+                    status: cancelled
+                    refund_amount:
+                      amount: 1299
+                      currency: EUR
+        '401':
+          description: Unauthorized
+        '404':
+          description: Booking not found
+        '422':
+          description: Booking cannot be cancelled (non-refundable or past departure)
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    BookingResponse:
+      type: object
+      description: Booking confirmation response
+      properties:
+        booking_id:
+          type: string
+          description: Unique booking identifier
+          example: booking-500123
+        status:
+          type: string
+          description: Current booking status
+          enum:
+          - confirmed
+          - pending
+          - cancelled
+          example: confirmed
+        total_price:
+          $ref: '#/components/schemas/Price'
+        tickets:
+          type: array
+          description: List of tickets created for this booking
+          items:
+            $ref: '#/components/schemas/Ticket'
+        partner_reference:
+          type: string
+          description: Partner's reference identifier
+          example: booking-ref-abc123
+    Ticket:
+      type: object
+      description: Electronic ticket for a passenger on a trip
+      properties:
+        ticket_id:
+          type: string
+          description: Unique ticket identifier
+          example: ticket-500123
+        booking_id:
+          type: string
+          description: Associated booking identifier
+          example: booking-500123
+        passenger_name:
+          type: string
+          description: Full name of the ticket holder
+          example: Jane Smith
+        departure_datetime:
+          type: string
+          format: date-time
+          description: Departure date and time
+          example: '2025-06-15T07:00:00Z'
+        from_station:
+          type: string
+          description: Departure station name
+          example: Paris Bercy
+        to_station:
+          type: string
+          description: Arrival station name
+          example: Lyon Perrache
+        seat_number:
+          type: string
+          description: Assigned seat number
+          example: 14A
+        status:
+          type: string
+          description: Current ticket status
+          enum:
+          - valid
+          - used
+          - cancelled
+          example: valid
+        qr_code:
+          type: string
+          description: Base64-encoded QR code image for ticket validation
+          example: data:image/png;base64,abc123
+    Price:
+      type: object
+      description: Monetary amount with currency
+      properties:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: EUR
+    BookingRequest:
+      type: object
+      description: Request body for creating a new booking
+      required:
+      - trip_id
+      - passengers
+      properties:
+        trip_id:
+          type: string
+          description: Identifier of the trip to book
+          example: trip-500123
+        passengers:
+          type: array
+          description: List of passenger details
+          items:
+            $ref: '#/components/schemas/Passenger'
+        currency:
+          type: string
+          description: Preferred currency for pricing (ISO 4217)
+          example: EUR
+        partner_reference:
+          type: string
+          description: Partner's own reference identifier for the booking
+          example: booking-ref-abc123
+    CancellationResponse:
+      type: object
+      description: Booking cancellation confirmation
+      properties:
+        booking_id:
+          type: string
+          description: Identifier of the cancelled booking
+          example: booking-500123
+        status:
+          type: string
+          description: Updated booking status
+          enum:
+          - cancelled
+          example: cancelled
+        refund_amount:
+          $ref: '#/components/schemas/Price'
+    Passenger:
+      type: object
+      description: Passenger details for a booking
+      required:
+      - first_name
+      - last_name
+      - email
+      properties:
+        first_name:
+          type: string
+          description: Passenger's first name
+          example: Jane
+        last_name:
+          type: string
+          description: Passenger's last name
+          example: Smith
+        email:
+          type: string
+          format: email
+          description: Passenger's email address for ticket delivery
+          example: jsmith@example.com
+        phone:
+          type: string
+          description: Passenger's phone number in E.164 format
+          example: '+33600000000'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key provided by BlaBlaCar Bus partner program

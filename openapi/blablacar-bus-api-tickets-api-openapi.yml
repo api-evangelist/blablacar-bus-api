@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: BlaBlaCar Bus Bookings Tickets API
+  description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
+  version: '1.0'
+  contact:
+    name: BlaBlaCar Bus API Support
+    url: https://bus-api.blablacar.com/
+  x-generated-from: documentation
+servers:
+- url: https://bus-api.blablacar.com/v1
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Tickets
+  description: Retrieve and manage passenger tickets
+paths:
+  /tickets/{ticket_id}:
+    get:
+      operationId: getTicket
+      summary: BlaBlaCar Bus Get Ticket
+      description: Retrieve electronic ticket details including QR code and passenger information for a specific ticket.
+      tags:
+      - Tickets
+      parameters:
+      - name: ticket_id
+        in: path
+        required: true
+        description: Unique ticket identifier
+        schema:
+          type: string
+        example: ticket-500123
+      responses:
+        '200':
+          description: Ticket details with QR code
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+              examples:
+                GetTicket200Example:
+                  summary: Default getTicket 200 response
+                  x-microcks-default: true
+                  value:
+                    ticket_id: ticket-500123
+                    booking_id: booking-500123
+                    passenger_name: Jane Smith
+                    departure_datetime: '2025-06-15T07:00:00Z'
+                    from_station: Paris Bercy
+                    to_station: Lyon Perrache
+                    seat_number: 14A
+                    status: valid
+                    qr_code: data:image/png;base64,abc123
+        '401':
+          description: Unauthorized
+        '404':
+          description: Ticket not found
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Ticket:
+      type: object
+      description: Electronic ticket for a passenger on a trip
+      properties:
+        ticket_id:
+          type: string
+          description: Unique ticket identifier
+          example: ticket-500123
+        booking_id:
+          type: string
+          description: Associated booking identifier
+          example: booking-500123
+        passenger_name:
+          type: string
+          description: Full name of the ticket holder
+          example: Jane Smith
+        departure_datetime:
+          type: string
+          format: date-time
+          description: Departure date and time
+          example: '2025-06-15T07:00:00Z'
+        from_station:
+          type: string
+          description: Departure station name
+          example: Paris Bercy
+        to_station:
+          type: string
+          description: Arrival station name
+          example: Lyon Perrache
+        seat_number:
+          type: string
+          description: Assigned seat number
+          example: 14A
+        status:
+          type: string
+          description: Current ticket status
+          enum:
+          - valid
+          - used
+          - cancelled
+          example: valid
+        qr_code:
+          type: string
+          description: Base64-encoded QR code image for ticket validation
+          example: data:image/png;base64,abc123
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key provided by BlaBlaCar Bus partner program

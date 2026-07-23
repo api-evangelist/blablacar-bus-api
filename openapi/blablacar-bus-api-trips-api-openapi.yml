@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: BlaBlaCar Bus Bookings Trips API
+  description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
+  version: '1.0'
+  contact:
+    name: BlaBlaCar Bus API Support
+    url: https://bus-api.blablacar.com/
+  x-generated-from: documentation
+servers:
+- url: https://bus-api.blablacar.com/v1
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Trips
+  description: Search trip availability and pricing
+paths:
+  /trips:
+    get:
+      operationId: searchTrips
+      summary: BlaBlaCar Bus Search Available Trips
+      description: Search for available coach trips between two stations on a given date, returning departure times, seat availability, pricing, and trip identifiers.
+      tags:
+      - Trips
+      parameters:
+      - name: from_station_id
+        in: query
+        required: true
+        description: Origin station identifier
+        schema:
+          type: string
+        example: FRTLS
+      - name: to_station_id
+        in: query
+        required: true
+        description: Destination station identifier
+        schema:
+          type: string
+        example: FRLYO
+      - name: departure_date
+        in: query
+        required: true
+        description: Departure date in YYYY-MM-DD format
+        schema:
+          type: string
+          format: date
+        example: '2025-06-15'
+      - name: passengers
+        in: query
+        description: Number of passengers
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 9
+        example: 2
+      - name: currency
+        in: query
+        description: Currency code for pricing (ISO 4217)
+        schema:
+          type: string
+        example: EUR
+      responses:
+        '200':
+          description: Available trips matching search criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TripListResponse'
+              examples:
+                SearchTrips200Example:
+                  summary: Default searchTrips 200 response
+                  x-microcks-default: true
+                  value:
+                    trips:
+                    - id: trip-500123
+                      route_id: route-paris-lyon
+                      departure_datetime: '2025-06-15T07:00:00Z'
+                      arrival_datetime: '2025-06-15T10:00:00Z'
+                      available_seats: 24
+                      price:
+                        amount: 1299
+                        currency: EUR
+        '400':
+          description: Bad Request - invalid search parameters
+        '401':
+          description: Unauthorized - invalid or missing API key
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    TripListResponse:
+      type: object
+      description: Response containing a list of available trips
+      properties:
+        trips:
+          type: array
+          description: List of available trips
+          items:
+            $ref: '#/components/schemas/Trip'
+    Price:
+      type: object
+      description: Monetary amount with currency
+      properties:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: EUR
+    Trip:
+      type: object
+      description: A specific coach departure on a route
+      properties:
+        id:
+          type: string
+          description: Unique trip identifier
+          example: trip-500123
+        route_id:
+          type: string
+          description: Associated route identifier
+          example: route-paris-lyon
+        departure_datetime:
+          type: string
+          format: date-time
+          description: Departure date and time in ISO 8601 format
+          example: '2025-06-15T07:00:00Z'
+        arrival_datetime:
+          type: string
+          format: date-time
+          description: Arrival date and time in ISO 8601 format
+          example: '2025-06-15T10:00:00Z'
+        available_seats:
+          type: integer
+          description: Number of seats currently available
+          example: 24
+        price:
+          $ref: '#/components/schemas/Price'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key provided by BlaBlaCar Bus partner program

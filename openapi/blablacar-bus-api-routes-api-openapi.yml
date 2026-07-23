@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: BlaBlaCar Bus Bookings Routes API
+  description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
+  version: '1.0'
+  contact:
+    name: BlaBlaCar Bus API Support
+    url: https://bus-api.blablacar.com/
+  x-generated-from: documentation
+servers:
+- url: https://bus-api.blablacar.com/v1
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Routes
+  description: Search and browse available coach routes
+paths:
+  /routes:
+    get:
+      operationId: listRoutes
+      summary: BlaBlaCar Bus List Available Routes
+      description: List available coach routes in the BlaBlaCar Bus network, filtered by origin and destination station codes or geographic coordinates.
+      tags:
+      - Routes
+      parameters:
+      - name: from_id
+        in: query
+        description: Origin station identifier
+        schema:
+          type: string
+        example: FRTLS
+      - name: to_id
+        in: query
+        description: Destination station identifier
+        schema:
+          type: string
+        example: FRLYO
+      responses:
+        '200':
+          description: List of available routes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RouteListResponse'
+              examples:
+                ListRoutes200Example:
+                  summary: Default listRoutes 200 response
+                  x-microcks-default: true
+                  value:
+                    routes:
+                    - id: route-paris-lyon
+                      from_station_id: FRTLS
+                      to_station_id: FRLYO
+                      duration_minutes: 180
+                      distance_km: 465
+        '401':
+          description: Unauthorized - invalid or missing API key
+        '422':
+          description: Unprocessable Entity - invalid parameters
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    RouteListResponse:
+      type: object
+      description: Response containing a list of available coach routes
+      properties:
+        routes:
+          type: array
+          description: List of available routes
+          items:
+            $ref: '#/components/schemas/Route'
+    Route:
+      type: object
+      description: A coach route between two stations
+      properties:
+        id:
+          type: string
+          description: Unique route identifier
+          example: route-paris-lyon
+        from_station_id:
+          type: string
+          description: Origin station identifier
+          example: FRTLS
+        to_station_id:
+          type: string
+          description: Destination station identifier
+          example: FRLYO
+        duration_minutes:
+          type: integer
+          description: Typical route duration in minutes
+          example: 180
+        distance_km:
+          type: integer
+          description: Route distance in kilometers
+          example: 465
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key provided by BlaBlaCar Bus partner program

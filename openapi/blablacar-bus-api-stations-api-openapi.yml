@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: BlaBlaCar Bus Bookings Stations API
+  description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
+  version: '1.0'
+  contact:
+    name: BlaBlaCar Bus API Support
+    url: https://bus-api.blablacar.com/
+  x-generated-from: documentation
+servers:
+- url: https://bus-api.blablacar.com/v1
+  description: Production Server
+security:
+- apiKeyAuth: []
+tags:
+- name: Stations
+  description: Access station information
+paths:
+  /stations:
+    get:
+      operationId: listStations
+      summary: BlaBlaCar Bus List Stations
+      description: List all stations in the BlaBlaCar Bus network with location and facility information.
+      tags:
+      - Stations
+      parameters:
+      - name: country_code
+        in: query
+        description: Filter stations by ISO 3166-1 alpha-2 country code
+        schema:
+          type: string
+        example: FR
+      - name: query
+        in: query
+        description: Search stations by name or city
+        schema:
+          type: string
+        example: Paris
+      responses:
+        '200':
+          description: List of stations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StationListResponse'
+              examples:
+                ListStations200Example:
+                  summary: Default listStations 200 response
+                  x-microcks-default: true
+                  value:
+                    stations:
+                    - id: FRTLS
+                      name: Paris Bercy
+                      city: Paris
+                      country_code: FR
+                      latitude: 48.8397
+                      longitude: 2.3826
+        '401':
+          description: Unauthorized
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    StationListResponse:
+      type: object
+      description: Response containing a list of stations
+      properties:
+        stations:
+          type: array
+          description: List of stations
+          items:
+            $ref: '#/components/schemas/Station'
+    Station:
+      type: object
+      description: A coach station in the BlaBlaCar Bus network
+      properties:
+        id:
+          type: string
+          description: Unique station identifier
+          example: FRTLS
+        name:
+          type: string
+          description: Station name
+          example: Paris Bercy
+        city:
+          type: string
+          description: City where the station is located
+          example: Paris
+        country_code:
+          type: string
+          description: ISO 3166-1 alpha-2 country code
+          example: FR
+        latitude:
+          type: number
+          description: Geographic latitude of the station
+          example: 48.8397
+        longitude:
+          type: number
+          description: Geographic longitude of the station
+          example: 2.3826
+        address:
+          type: string
+          description: Full street address of the station
+          example: 210 Quai de Bercy, 75012 Paris
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: API key provided by BlaBlaCar Bus partner program
