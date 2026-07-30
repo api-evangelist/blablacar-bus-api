@@ -15,31 +15,121 @@ tags:
 - Transportation
 - Travel
 type: Index
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/blablacar-bus-api.png
 access: 3rd-Party
 created: '2024-11-14'
 modified: '2026-05-19'
 position: Consumer
 specificationVersion: '0.19'
 apis:
-- aid: blablacar-bus-api:blablacar-bus-api
-  name: BlaBlaCar Bus API
-  description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform. Enables partners to
-    search routes, check seat availability, create bookings, manage tickets, and receive booking confirmations. Targeted at
-    OTAs, travel aggregators, mobility platforms, and enterprise travel management companies operating in European markets.
+- aid: blablacar-bus-api:blablacar-bus-api-bookings-api
+  name: BlaBlaCar Bus API Bookings API
+  description: Create and manage bookings
   humanURL: https://bus-api.blablacar.com/
   tags:
-  - Booking
-  - Buses
-  - Coach
-  - Europe
-  - Ticketing
-  - Transportation
+  - Bookings
   properties:
+  - type: OpenAPI
+    url: openapi/blablacar-bus-api-bookings-api-openapi.yml
   - type: Documentation
     url: https://bus-api.blablacar.com/
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-bookings.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-routes.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-stations.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-tickets.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-trips.yaml
+- aid: blablacar-bus-api:blablacar-bus-api-routes-api
+  name: BlaBlaCar Bus API Routes API
+  description: Search and browse available coach routes
+  humanURL: https://bus-api.blablacar.com/
+  tags:
+  - Routes
+  properties:
   - type: OpenAPI
-    url: openapi/blablacar-bus-api-openapi.yaml
+    url: openapi/blablacar-bus-api-routes-api-openapi.yml
+  - type: Documentation
+    url: https://bus-api.blablacar.com/
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-bookings.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-routes.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-stations.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-tickets.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-trips.yaml
+- aid: blablacar-bus-api:blablacar-bus-api-stations-api
+  name: BlaBlaCar Bus API Stations API
+  description: Access station information
+  humanURL: https://bus-api.blablacar.com/
+  tags:
+  - Stations
+  properties:
+  - type: OpenAPI
+    url: openapi/blablacar-bus-api-stations-api-openapi.yml
+  - type: Documentation
+    url: https://bus-api.blablacar.com/
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-bookings.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-routes.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-stations.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-tickets.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-trips.yaml
+- aid: blablacar-bus-api:blablacar-bus-api-tickets-api
+  name: BlaBlaCar Bus API Tickets API
+  description: Retrieve and manage passenger tickets
+  humanURL: https://bus-api.blablacar.com/
+  tags:
+  - Tickets
+  properties:
+  - type: OpenAPI
+    url: openapi/blablacar-bus-api-tickets-api-openapi.yml
+  - type: Documentation
+    url: https://bus-api.blablacar.com/
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-bookings.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-routes.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-stations.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-tickets.yaml
+  - type: X-NaftikoCapability
+    url: capabilities/blablacar-bus-trips.yaml
+- aid: blablacar-bus-api:blablacar-bus-api-trips-api
+  name: BlaBlaCar Bus API Trips API
+  description: Search trip availability and pricing
+  humanURL: https://bus-api.blablacar.com/
+  tags:
+  - Trips
+  properties:
+  - type: OpenAPI
+    url: openapi/blablacar-bus-api-trips-api-openapi.yml
+  - type: Documentation
+    url: https://bus-api.blablacar.com/
   - type: X-NaftikoCapability
     url: capabilities/blablacar-bus-bookings.yaml
   - type: X-NaftikoCapability
