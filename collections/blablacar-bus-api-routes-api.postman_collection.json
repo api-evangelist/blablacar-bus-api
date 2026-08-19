@@ -1,0 +1,245 @@
+{
+  "item": [
+    {
+      "id": "aea8469c-260a-421b-9d5a-f82dffa5c659",
+      "name": "Routes",
+      "description": {
+        "content": "Search and browse available coach routes",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3a27e1de-15c7-469e-9e44-5522c778458d",
+          "name": "BlaBlaCar Bus List Available Routes",
+          "request": {
+            "name": "BlaBlaCar Bus List Available Routes",
+            "description": {
+              "content": "List available coach routes in the BlaBlaCar Bus network, filtered by origin and destination station codes or geographic coordinates.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "routes"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from_id",
+                  "value": "<string>",
+                  "description": "Origin station identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "to_id",
+                  "value": "<string>",
+                  "description": "Destination station identifier"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9dc056f6-0559-4b84-a67c-860105ffd0c4",
+              "name": "List of available routes",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_id",
+                      "value": "FRTLS"
+                    },
+                    {
+                      "key": "to_id",
+                      "value": "FRLYO"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"routes\": [\n    {\n      \"id\": \"route-paris-lyon\",\n      \"from_station_id\": \"FRTLS\",\n      \"to_station_id\": \"FRLYO\",\n      \"duration_minutes\": 180,\n      \"distance_km\": 465\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55dd1f62-82bd-4966-808e-8a66e8be81b8",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_id",
+                      "value": "FRTLS"
+                    },
+                    {
+                      "key": "to_id",
+                      "value": "FRLYO"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5381b624-6b4a-4530-953c-0f43e24c94e5",
+              "name": "Unprocessable Entity - invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "routes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_id",
+                      "value": "FRTLS"
+                    },
+                    {
+                      "key": "to_id",
+                      "value": "FRLYO"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://bus-api.blablacar.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "96f5fea9-a53d-432a-9a60-8f0567fb57c5",
+    "name": "BlaBlaCar Bus Bookings Routes API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.\n\nContact Support:\n Name: BlaBlaCar Bus API Support",
+      "type": "text/plain"
+    }
+  }
+}

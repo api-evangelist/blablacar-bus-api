@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BlaBlaCar Bus Bookings Stations API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BlaBlaCar Bus List Stations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://bus-api.blablacar.com/v1/stations",
+            "params": [
+              {
+                "name": "country_code",
+                "value": "FR",
+                "type": "query",
+                "description": "Filter stations by ISO 3166-1 alpha-2 country code"
+              },
+              {
+                "name": "query",
+                "value": "Paris",
+                "type": "query",
+                "description": "Search stations by name or city"
+              }
+            ]
+          },
+          "docs": "List all stations in the BlaBlaCar Bus network with location and facility information."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

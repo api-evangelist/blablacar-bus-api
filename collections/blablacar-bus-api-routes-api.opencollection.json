@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BlaBlaCar Bus Bookings Routes API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-Key",
+      "value": "{{X-API-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Routes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "BlaBlaCar Bus List Available Routes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://bus-api.blablacar.com/v1/routes",
+            "params": [
+              {
+                "name": "from_id",
+                "value": "FRTLS",
+                "type": "query",
+                "description": "Origin station identifier"
+              },
+              {
+                "name": "to_id",
+                "value": "FRLYO",
+                "type": "query",
+                "description": "Destination station identifier"
+              }
+            ]
+          },
+          "docs": "List available coach routes in the BlaBlaCar Bus network, filtered by origin and destination station codes or geographic coordinates."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

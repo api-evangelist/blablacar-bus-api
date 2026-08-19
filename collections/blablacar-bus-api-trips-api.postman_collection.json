@@ -1,0 +1,299 @@
+{
+  "item": [
+    {
+      "id": "9d9a06ec-b38f-4aa0-be14-8169053f7627",
+      "name": "Trips",
+      "description": {
+        "content": "Search trip availability and pricing",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b36e0992-274a-4a06-9365-32a27435245c",
+          "name": "BlaBlaCar Bus Search Available Trips",
+          "request": {
+            "name": "BlaBlaCar Bus Search Available Trips",
+            "description": {
+              "content": "Search for available coach trips between two stations on a given date, returning departure times, seat availability, pricing, and trip identifiers.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "trips"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from_station_id",
+                  "value": "<string>",
+                  "description": "(Required) Origin station identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "to_station_id",
+                  "value": "<string>",
+                  "description": "(Required) Destination station identifier"
+                },
+                {
+                  "disabled": false,
+                  "key": "departure_date",
+                  "value": "<date>",
+                  "description": "(Required) Departure date in YYYY-MM-DD format"
+                },
+                {
+                  "disabled": false,
+                  "key": "passengers",
+                  "value": "<integer>",
+                  "description": "Number of passengers"
+                },
+                {
+                  "disabled": false,
+                  "key": "currency",
+                  "value": "<string>",
+                  "description": "Currency code for pricing (ISO 4217)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "458e16a0-bd49-4792-aa6f-496b58e766e0",
+              "name": "Available trips matching search criteria",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_station_id",
+                      "value": "FRTLS"
+                    },
+                    {
+                      "key": "to_station_id",
+                      "value": "FRLYO"
+                    },
+                    {
+                      "key": "departure_date",
+                      "value": "2025-06-15"
+                    },
+                    {
+                      "key": "passengers",
+                      "value": "2"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"trips\": [\n    {\n      \"id\": \"trip-500123\",\n      \"route_id\": \"route-paris-lyon\",\n      \"departure_datetime\": \"2025-06-15T07:00:00Z\",\n      \"arrival_datetime\": \"2025-06-15T10:00:00Z\",\n      \"available_seats\": 24,\n      \"price\": {\n        \"amount\": 1299,\n        \"currency\": \"EUR\"\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff7dc1c1-81b9-4e14-894e-038b7fa483ec",
+              "name": "Bad Request - invalid search parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_station_id",
+                      "value": "FRTLS"
+                    },
+                    {
+                      "key": "to_station_id",
+                      "value": "FRLYO"
+                    },
+                    {
+                      "key": "departure_date",
+                      "value": "2025-06-15"
+                    },
+                    {
+                      "key": "passengers",
+                      "value": "2"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1e50a5a5-6750-4e9a-ae50-5dc5a2c88025",
+              "name": "Unauthorized - invalid or missing API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "trips"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from_station_id",
+                      "value": "FRTLS"
+                    },
+                    {
+                      "key": "to_station_id",
+                      "value": "FRLYO"
+                    },
+                    {
+                      "key": "departure_date",
+                      "value": "2025-06-15"
+                    },
+                    {
+                      "key": "passengers",
+                      "value": "2"
+                    },
+                    {
+                      "key": "currency",
+                      "value": "EUR"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://bus-api.blablacar.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "ab82d1d1-0bed-44c3-b54f-878690d2694f",
+    "name": "BlaBlaCar Bus Bookings Trips API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.\n\nContact Support:\n Name: BlaBlaCar Bus API Support",
+      "type": "text/plain"
+    }
+  }
+}

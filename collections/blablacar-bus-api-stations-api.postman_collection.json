@@ -1,0 +1,197 @@
+{
+  "item": [
+    {
+      "id": "98f7e5ee-374a-4b55-8582-b3d17b3c98b2",
+      "name": "Stations",
+      "description": {
+        "content": "Access station information",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "efb44fef-4714-4d26-b3be-a4e7c2c5d45c",
+          "name": "BlaBlaCar Bus List Stations",
+          "request": {
+            "name": "BlaBlaCar Bus List Stations",
+            "description": {
+              "content": "List all stations in the BlaBlaCar Bus network with location and facility information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "stations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "country_code",
+                  "value": "<string>",
+                  "description": "Filter stations by ISO 3166-1 alpha-2 country code"
+                },
+                {
+                  "disabled": false,
+                  "key": "query",
+                  "value": "<string>",
+                  "description": "Search stations by name or city"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "02e547bd-c009-4364-b09d-a6de9d78c9f4",
+              "name": "List of stations",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country_code",
+                      "value": "FR"
+                    },
+                    {
+                      "key": "query",
+                      "value": "Paris"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"stations\": [\n    {\n      \"id\": \"FRTLS\",\n      \"name\": \"Paris Bercy\",\n      \"city\": \"Paris\",\n      \"country_code\": \"FR\",\n      \"latitude\": 48.8397,\n      \"longitude\": 2.3826\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "565cad15-0057-414c-bc17-858f72f8652d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "stations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "country_code",
+                      "value": "FR"
+                    },
+                    {
+                      "key": "query",
+                      "value": "Paris"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://bus-api.blablacar.com/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "c797e5b7-a3a6-484e-9251-cfdbc9c40922",
+    "name": "BlaBlaCar Bus Bookings Stations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.\n\nContact Support:\n Name: BlaBlaCar Bus API Support",
+      "type": "text/plain"
+    }
+  }
+}
