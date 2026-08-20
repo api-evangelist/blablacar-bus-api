@@ -7,6 +7,15 @@ description: BlaBlaCar Bus API enables transport operators, OTAs, and travel agg
   Ukraine, and other European markets under the BlaBlaBus brand.
 tags:
 - Booking
+- Bus
+- Coach
+- Europe
+- Mobility
+- Ticketing
+- Transportation
+- Travel
+tags_raw:
+- Booking
 - Buses
 - Coach
 - Europe
