@@ -17,6 +17,13 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "blablacar-bus-api-bookings-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "blablacar-bus-api-routes-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "blablacar-bus-api-stations-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "blablacar-bus-api-tickets-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "blablacar-bus-api-trips-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BlaBlaCar Bus Bookings Trips API
   description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
@@ -90,27 +90,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    TripListResponse:
-      type: object
-      description: Response containing a list of available trips
-      properties:
-        trips:
-          type: array
-          description: List of available trips
-          items:
-            $ref: '#/components/schemas/Trip'
-    Price:
-      type: object
-      description: Monetary amount with currency
-      properties:
-        amount:
-          type: integer
-          description: Price amount in minor currency units (e.g., cents)
-          example: 1299
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: EUR
     Trip:
       type: object
       description: A specific coach departure on a route
@@ -139,6 +118,27 @@ components:
           example: 24
         price:
           $ref: '#/components/schemas/Price'
+    TripListResponse:
+      type: object
+      description: Response containing a list of available trips
+      properties:
+        trips:
+          type: array
+          description: List of available trips
+          items:
+            $ref: '#/components/schemas/Trip'
+    Price:
+      type: object
+      description: Monetary amount with currency
+      properties:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: EUR
   securitySchemes:
     apiKeyAuth:
       type: apiKey

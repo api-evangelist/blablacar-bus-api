@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BlaBlaCar Bus Bookings API
   description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
@@ -156,33 +156,43 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    BookingResponse:
+    Price:
       type: object
-      description: Booking confirmation response
+      description: Monetary amount with currency
       properties:
-        booking_id:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
           type: string
-          description: Unique booking identifier
-          example: booking-500123
-        status:
+          description: ISO 4217 currency code
+          example: EUR
+    Passenger:
+      type: object
+      description: Passenger details for a booking
+      required:
+      - first_name
+      - last_name
+      - email
+      properties:
+        first_name:
           type: string
-          description: Current booking status
-          enum:
-          - confirmed
-          - pending
-          - cancelled
-          example: confirmed
-        total_price:
-          $ref: '#/components/schemas/Price'
-        tickets:
-          type: array
-          description: List of tickets created for this booking
-          items:
-            $ref: '#/components/schemas/Ticket'
-        partner_reference:
+          description: Passenger's first name
+          example: Jane
+        last_name:
           type: string
-          description: Partner's reference identifier
-          example: booking-ref-abc123
+          description: Passenger's last name
+          example: Smith
+        email:
+          type: string
+          format: email
+          description: Passenger's email address for ticket delivery
+          example: jsmith@example.com
+        phone:
+          type: string
+          description: Passenger's phone number in E.164 format
+          example: '+33600000000'
     Ticket:
       type: object
       description: Electronic ticket for a passenger on a trip
@@ -228,18 +238,22 @@ components:
           type: string
           description: Base64-encoded QR code image for ticket validation
           example: data:image/png;base64,abc123
-    Price:
+    CancellationResponse:
       type: object
-      description: Monetary amount with currency
+      description: Booking cancellation confirmation
       properties:
-        amount:
-          type: integer
-          description: Price amount in minor currency units (e.g., cents)
-          example: 1299
-        currency:
+        booking_id:
           type: string
-          description: ISO 4217 currency code
-          example: EUR
+          description: Identifier of the cancelled booking
+          example: booking-500123
+        status:
+          type: string
+          description: Updated booking status
+          enum:
+          - cancelled
+          example: cancelled
+        refund_amount:
+          $ref: '#/components/schemas/Price'
     BookingRequest:
       type: object
       description: Request body for creating a new booking
@@ -264,47 +278,33 @@ components:
           type: string
           description: Partner's own reference identifier for the booking
           example: booking-ref-abc123
-    CancellationResponse:
+    BookingResponse:
       type: object
-      description: Booking cancellation confirmation
+      description: Booking confirmation response
       properties:
         booking_id:
           type: string
-          description: Identifier of the cancelled booking
+          description: Unique booking identifier
           example: booking-500123
         status:
           type: string
-          description: Updated booking status
+          description: Current booking status
           enum:
+          - confirmed
+          - pending
           - cancelled
-          example: cancelled
-        refund_amount:
+          example: confirmed
+        total_price:
           $ref: '#/components/schemas/Price'
-    Passenger:
-      type: object
-      description: Passenger details for a booking
-      required:
-      - first_name
-      - last_name
-      - email
-      properties:
-        first_name:
+        tickets:
+          type: array
+          description: List of tickets created for this booking
+          items:
+            $ref: '#/components/schemas/Ticket'
+        partner_reference:
           type: string
-          description: Passenger's first name
-          example: Jane
-        last_name:
-          type: string
-          description: Passenger's last name
-          example: Smith
-        email:
-          type: string
-          format: email
-          description: Passenger's email address for ticket delivery
-          example: jsmith@example.com
-        phone:
-          type: string
-          description: Passenger's phone number in E.164 format
-          example: '+33600000000'
+          description: Partner's reference identifier
+          example: booking-ref-abc123
   securitySchemes:
     apiKeyAuth:
       type: apiKey
