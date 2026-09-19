@@ -62,6 +62,8 @@ apis:
   description: Create and manage bookings
   humanURL: https://bus-api.blablacar.com/
   tags:
+  - Booking
+  tags_raw:
   - Bookings
   properties:
   - type: OpenAPI
