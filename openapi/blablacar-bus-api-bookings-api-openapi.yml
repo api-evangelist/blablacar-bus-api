@@ -156,43 +156,33 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    Price:
+    BookingResponse:
       type: object
-      description: Monetary amount with currency
+      description: Booking confirmation response
       properties:
-        amount:
-          type: integer
-          description: Price amount in minor currency units (e.g., cents)
-          example: 1299
-        currency:
+        booking_id:
           type: string
-          description: ISO 4217 currency code
-          example: EUR
-    Passenger:
-      type: object
-      description: Passenger details for a booking
-      required:
-      - first_name
-      - last_name
-      - email
-      properties:
-        first_name:
+          description: Unique booking identifier
+          example: booking-500123
+        status:
           type: string
-          description: Passenger's first name
-          example: Jane
-        last_name:
+          description: Current booking status
+          enum:
+          - confirmed
+          - pending
+          - cancelled
+          example: confirmed
+        total_price:
+          $ref: '#/components/schemas/Price'
+        tickets:
+          type: array
+          description: List of tickets created for this booking
+          items:
+            $ref: '#/components/schemas/Ticket'
+        partner_reference:
           type: string
-          description: Passenger's last name
-          example: Smith
-        email:
-          type: string
-          format: email
-          description: Passenger's email address for ticket delivery
-          example: jsmith@example.com
-        phone:
-          type: string
-          description: Passenger's phone number in E.164 format
-          example: '+33600000000'
+          description: Partner's reference identifier
+          example: booking-ref-abc123
     Ticket:
       type: object
       description: Electronic ticket for a passenger on a trip
@@ -238,22 +228,31 @@ components:
           type: string
           description: Base64-encoded QR code image for ticket validation
           example: data:image/png;base64,abc123
-    CancellationResponse:
+    Passenger:
       type: object
-      description: Booking cancellation confirmation
+      description: Passenger details for a booking
+      required:
+      - first_name
+      - last_name
+      - email
       properties:
-        booking_id:
+        first_name:
           type: string
-          description: Identifier of the cancelled booking
-          example: booking-500123
-        status:
+          description: Passenger's first name
+          example: Jane
+        last_name:
           type: string
-          description: Updated booking status
-          enum:
-          - cancelled
-          example: cancelled
-        refund_amount:
-          $ref: '#/components/schemas/Price'
+          description: Passenger's last name
+          example: Smith
+        email:
+          type: string
+          format: email
+          description: Passenger's email address for ticket delivery
+          example: jsmith@example.com
+        phone:
+          type: string
+          description: Passenger's phone number in E.164 format
+          example: '+33600000000'
     BookingRequest:
       type: object
       description: Request body for creating a new booking
@@ -278,33 +277,34 @@ components:
           type: string
           description: Partner's own reference identifier for the booking
           example: booking-ref-abc123
-    BookingResponse:
+    CancellationResponse:
       type: object
-      description: Booking confirmation response
+      description: Booking cancellation confirmation
       properties:
         booking_id:
           type: string
-          description: Unique booking identifier
+          description: Identifier of the cancelled booking
           example: booking-500123
         status:
           type: string
-          description: Current booking status
+          description: Updated booking status
           enum:
-          - confirmed
-          - pending
           - cancelled
-          example: confirmed
-        total_price:
+          example: cancelled
+        refund_amount:
           $ref: '#/components/schemas/Price'
-        tickets:
-          type: array
-          description: List of tickets created for this booking
-          items:
-            $ref: '#/components/schemas/Ticket'
-        partner_reference:
+    Price:
+      type: object
+      description: Monetary amount with currency
+      properties:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
           type: string
-          description: Partner's reference identifier
-          example: booking-ref-abc123
+          description: ISO 4217 currency code
+          example: EUR
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -1,11 +1,7 @@
 {
   "provider": "blablacar-bus-api",
   "sources": [
-    "blablacar-bus-api-bookings-api-openapi.yml",
-    "blablacar-bus-api-routes-api-openapi.yml",
-    "blablacar-bus-api-stations-api-openapi.yml",
-    "blablacar-bus-api-tickets-api-openapi.yml",
-    "blablacar-bus-api-trips-api-openapi.yml"
+    "_ae-authored/blablacar-bus-api-openapi.yaml"
   ],
   "outputs": [
     "blablacar-bus-api-bookings-api-openapi.yml",
@@ -18,12 +14,15 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "blablacar-bus-api-bookings-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "blablacar-bus-api-routes-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "blablacar-bus-api-stations-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "blablacar-bus-api-tickets-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "blablacar-bus-api-trips-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "blablacar-bus-api-openapi.yaml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "blablacar-bus-api-bookings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "blablacar-bus-api-routes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "blablacar-bus-api-stations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "blablacar-bus-api-tickets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "blablacar-bus-api-trips-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

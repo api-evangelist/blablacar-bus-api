@@ -1,6 +1,6 @@
 openapi: 3.2.0
 info:
-  title: BlaBlaCar Bus Bookings Routes API
+  title: BlaBlaCar Bus Routes API
   description: REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform across Europe. Enables partners to search routes, check seat availability, create bookings, manage tickets, and access station information.
   version: '1.0'
   contact:
