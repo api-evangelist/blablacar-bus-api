@@ -183,6 +183,59 @@ components:
           type: string
           description: Partner's reference identifier
           example: booking-ref-abc123
+    Price:
+      type: object
+      description: Monetary amount with currency
+      properties:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: EUR
+    Passenger:
+      type: object
+      description: Passenger details for a booking
+      required:
+      - first_name
+      - last_name
+      - email
+      properties:
+        first_name:
+          type: string
+          description: Passenger's first name
+          example: Jane
+        last_name:
+          type: string
+          description: Passenger's last name
+          example: Smith
+        email:
+          type: string
+          format: email
+          description: Passenger's email address for ticket delivery
+          example: jsmith@example.com
+        phone:
+          type: string
+          description: Passenger's phone number in E.164 format
+          example: '+33600000000'
+    CancellationResponse:
+      type: object
+      description: Booking cancellation confirmation
+      properties:
+        booking_id:
+          type: string
+          description: Identifier of the cancelled booking
+          example: booking-500123
+        status:
+          type: string
+          description: Updated booking status
+          enum:
+          - cancelled
+          example: cancelled
+        refund_amount:
+          $ref: '#/components/schemas/Price'
     Ticket:
       type: object
       description: Electronic ticket for a passenger on a trip
@@ -228,31 +281,6 @@ components:
           type: string
           description: Base64-encoded QR code image for ticket validation
           example: data:image/png;base64,abc123
-    Passenger:
-      type: object
-      description: Passenger details for a booking
-      required:
-      - first_name
-      - last_name
-      - email
-      properties:
-        first_name:
-          type: string
-          description: Passenger's first name
-          example: Jane
-        last_name:
-          type: string
-          description: Passenger's last name
-          example: Smith
-        email:
-          type: string
-          format: email
-          description: Passenger's email address for ticket delivery
-          example: jsmith@example.com
-        phone:
-          type: string
-          description: Passenger's phone number in E.164 format
-          example: '+33600000000'
     BookingRequest:
       type: object
       description: Request body for creating a new booking
@@ -277,34 +305,6 @@ components:
           type: string
           description: Partner's own reference identifier for the booking
           example: booking-ref-abc123
-    CancellationResponse:
-      type: object
-      description: Booking cancellation confirmation
-      properties:
-        booking_id:
-          type: string
-          description: Identifier of the cancelled booking
-          example: booking-500123
-        status:
-          type: string
-          description: Updated booking status
-          enum:
-          - cancelled
-          example: cancelled
-        refund_amount:
-          $ref: '#/components/schemas/Price'
-    Price:
-      type: object
-      description: Monetary amount with currency
-      properties:
-        amount:
-          type: integer
-          description: Price amount in minor currency units (e.g., cents)
-          example: 1299
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: EUR
   securitySchemes:
     apiKeyAuth:
       type: apiKey

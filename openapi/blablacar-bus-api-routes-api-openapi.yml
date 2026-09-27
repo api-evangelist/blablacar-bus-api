@@ -63,6 +63,15 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    RouteListResponse:
+      type: object
+      description: Response containing a list of available coach routes
+      properties:
+        routes:
+          type: array
+          description: List of available routes
+          items:
+            $ref: '#/components/schemas/Route'
     Route:
       type: object
       description: A coach route between two stations
@@ -87,15 +96,6 @@ components:
           type: integer
           description: Route distance in kilometers
           example: 465
-    RouteListResponse:
-      type: object
-      description: Response containing a list of available coach routes
-      properties:
-        routes:
-          type: array
-          description: List of available routes
-          items:
-            $ref: '#/components/schemas/Route'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

@@ -62,15 +62,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    StationListResponse:
-      type: object
-      description: Response containing a list of stations
-      properties:
-        stations:
-          type: array
-          description: List of stations
-          items:
-            $ref: '#/components/schemas/Station'
     Station:
       type: object
       description: A coach station in the BlaBlaCar Bus network
@@ -103,6 +94,15 @@ components:
           type: string
           description: Full street address of the station
           example: 210 Quai de Bercy, 75012 Paris
+    StationListResponse:
+      type: object
+      description: Response containing a list of stations
+      properties:
+        stations:
+          type: array
+          description: List of stations
+          items:
+            $ref: '#/components/schemas/Station'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

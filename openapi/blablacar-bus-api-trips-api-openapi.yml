@@ -90,6 +90,18 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    Price:
+      type: object
+      description: Monetary amount with currency
+      properties:
+        amount:
+          type: integer
+          description: Price amount in minor currency units (e.g., cents)
+          example: 1299
+        currency:
+          type: string
+          description: ISO 4217 currency code
+          example: EUR
     TripListResponse:
       type: object
       description: Response containing a list of available trips
@@ -127,18 +139,6 @@ components:
           example: 24
         price:
           $ref: '#/components/schemas/Price'
-    Price:
-      type: object
-      description: Monetary amount with currency
-      properties:
-        amount:
-          type: integer
-          description: Price amount in minor currency units (e.g., cents)
-          example: 1299
-        currency:
-          type: string
-          description: ISO 4217 currency code
-          example: EUR
   securitySchemes:
     apiKeyAuth:
       type: apiKey

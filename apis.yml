@@ -97,6 +97,8 @@ apis:
   description: Retrieve and manage passenger tickets
   humanURL: https://bus-api.blablacar.com/
   tags:
+  - Ticketing
+  tags_raw:
   - Tickets
   properties:
   - type: OpenAPI
