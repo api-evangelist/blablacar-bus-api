@@ -102,15 +102,6 @@ components:
           type: string
           description: ISO 4217 currency code
           example: EUR
-    TripListResponse:
-      type: object
-      description: Response containing a list of available trips
-      properties:
-        trips:
-          type: array
-          description: List of available trips
-          items:
-            $ref: '#/components/schemas/Trip'
     Trip:
       type: object
       description: A specific coach departure on a route
@@ -139,6 +130,15 @@ components:
           example: 24
         price:
           $ref: '#/components/schemas/Price'
+    TripListResponse:
+      type: object
+      description: Response containing a list of available trips
+      properties:
+        trips:
+          type: array
+          description: List of available trips
+          items:
+            $ref: '#/components/schemas/Trip'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

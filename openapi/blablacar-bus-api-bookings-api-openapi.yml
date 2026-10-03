@@ -156,33 +156,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    BookingResponse:
-      type: object
-      description: Booking confirmation response
-      properties:
-        booking_id:
-          type: string
-          description: Unique booking identifier
-          example: booking-500123
-        status:
-          type: string
-          description: Current booking status
-          enum:
-          - confirmed
-          - pending
-          - cancelled
-          example: confirmed
-        total_price:
-          $ref: '#/components/schemas/Price'
-        tickets:
-          type: array
-          description: List of tickets created for this booking
-          items:
-            $ref: '#/components/schemas/Ticket'
-        partner_reference:
-          type: string
-          description: Partner's reference identifier
-          example: booking-ref-abc123
     Price:
       type: object
       description: Monetary amount with currency
@@ -304,6 +277,33 @@ components:
         partner_reference:
           type: string
           description: Partner's own reference identifier for the booking
+          example: booking-ref-abc123
+    BookingResponse:
+      type: object
+      description: Booking confirmation response
+      properties:
+        booking_id:
+          type: string
+          description: Unique booking identifier
+          example: booking-500123
+        status:
+          type: string
+          description: Current booking status
+          enum:
+          - confirmed
+          - pending
+          - cancelled
+          example: confirmed
+        total_price:
+          $ref: '#/components/schemas/Price'
+        tickets:
+          type: array
+          description: List of tickets created for this booking
+          items:
+            $ref: '#/components/schemas/Ticket'
+        partner_reference:
+          type: string
+          description: Partner's reference identifier
           example: booking-ref-abc123
   securitySchemes:
     apiKeyAuth:
