@@ -1,4 +1,4 @@
-# BlaBlaCar Bus API (blablacar-bus-api)
+# BlaBlaCar Bus API
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,134 +66,174 @@
 
 BlaBlaCar Bus API enables transport operators, OTAs, and travel aggregators to integrate with BlaBlaCar's coach and bus booking platform across Europe. The API provides access to route search, seat availability, booking creation, ticket management, and passenger notifications. BlaBlaCar Bus operates coach services across France, Germany, Poland, Spain, Italy, Ukraine, and other European markets under the BlaBlaBus brand.
 
-**URL:** [https://bus-api.blablacar.com/](https://bus-api.blablacar.com/)
+**Areas:** Booking · Bus · Coach · Europe · Mobility · Ticketing · Transportation · Travel
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## BlaBlaCar Bus API on APIs.io
 
-## Tags:
+Everything profiled for BlaBlaCar Bus API is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/blablacar-bus-api/](https://apis.io/providers/blablacar-bus-api/)** — or go straight to one of the APIs or properties below.
 
- - Booking, Buses, Coach, Europe, Mobility, Ticketing, Transportation, Travel
+### APIs (5)
 
-## Timestamps
+- [BlaBlaCar Bus API Bookings API](https://apis.io/apis/blablacar-bus-api/blablacar-bus-api-bookings-api/) — Create and manage bookings
+- [BlaBlaCar Bus API Routes API](https://apis.io/apis/blablacar-bus-api/blablacar-bus-api-routes-api/) — Search and browse available coach routes
+- [BlaBlaCar Bus API Stations API](https://apis.io/apis/blablacar-bus-api/blablacar-bus-api-stations-api/) — Access station information
+- [BlaBlaCar Bus API Tickets API](https://apis.io/apis/blablacar-bus-api/blablacar-bus-api-tickets-api/) — Retrieve and manage passenger tickets
+- [BlaBlaCar Bus API Trips API](https://apis.io/apis/blablacar-bus-api/blablacar-bus-api-trips-api/) — Search trip availability and pricing
 
-- **Created:** 2024-11-14
-- **Modified:** 2026-04-19
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### BlaBlaCar Bus API
-REST API for integrating with BlaBlaCar Bus (formerly BlaBlaBus) coach booking platform. Enables partners to search routes, check seat availability, create bookings, manage tickets, and receive booking confirmations. Targeted at OTAs, travel aggregators, mobility platforms, and enterprise travel management companies operating in European markets.
+#### Agentic access (1)
 
-**Human URL:** [https://bus-api.blablacar.com/](https://bus-api.blablacar.com/)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags:
+- [Blablacar Bus Api Agentic Access](https://apis.io/agentic-access/blablacar-bus-api/blablacar-bus-api-agentic-access/)
 
- - Booking, Buses, Coach, Europe, Ticketing, Transportation
+#### JSON Schema (5)
 
-#### Properties
+The data models the API reads and writes.
 
-- [Documentation](https://bus-api.blablacar.com/)
-- [OpenAPI](openapi/blablacar-bus-api-openapi.yaml)
+- [Booking](https://apis.io/schemas/blablacar-bus-api/blablacar-bus-api-booking/)
+- [Route](https://apis.io/schemas/blablacar-bus-api/blablacar-bus-api-route/)
+- [Station](https://apis.io/schemas/blablacar-bus-api/blablacar-bus-api-station/)
+- [Ticket](https://apis.io/schemas/blablacar-bus-api/blablacar-bus-api-ticket/)
+- [Trip](https://apis.io/schemas/blablacar-bus-api/blablacar-bus-api-trip/)
 
-## Common Properties
+#### JSON Structure (5)
+
+Data models expressed in JSON Structure.
+
+- [Blablacar Bus Api Booking Structure](https://apis.io/json-structure/blablacar-bus-api/blablacar-bus-api-booking-structure/)
+- [Blablacar Bus Api Route Structure](https://apis.io/json-structure/blablacar-bus-api/blablacar-bus-api-route-structure/)
+- [Blablacar Bus Api Station Structure](https://apis.io/json-structure/blablacar-bus-api/blablacar-bus-api-station-structure/)
+- [Blablacar Bus Api Ticket Structure](https://apis.io/json-structure/blablacar-bus-api/blablacar-bus-api-ticket-structure/)
+- [Blablacar Bus Api Trip Structure](https://apis.io/json-structure/blablacar-bus-api/blablacar-bus-api-trip-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Blablacar Bus Api Context](https://apis.io/jsonld/blablacar-bus-api/blablacar-bus-api-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Blablacar Bus Api Vocabulary](https://apis.io/vocabularies/blablacar-bus-api/blablacar-bus-api-vocabulary/)
+
+#### Examples (5)
+
+Example requests and responses.
+
+- [Blablacar Bus Api Booking Example](https://apis.io/examples/blablacar-bus-api/blablacar-bus-api-booking-example/)
+- [Blablacar Bus Api Route Example](https://apis.io/examples/blablacar-bus-api/blablacar-bus-api-route-example/)
+- [Blablacar Bus Api Station Example](https://apis.io/examples/blablacar-bus-api/blablacar-bus-api-station-example/)
+- [Blablacar Bus Api Ticket Example](https://apis.io/examples/blablacar-bus-api/blablacar-bus-api-ticket-example/)
+- [Blablacar Bus Api Trip Example](https://apis.io/examples/blablacar-bus-api/blablacar-bus-api-trip-example/)
+
+#### Collections (5)
+
+Postman and Open Collection request collections.
+
+- [BlaBlaCar Bus Bookings API](https://apis.io/collections/blablacar-bus-api/open-blablacar-bus-api-bookings-api/)
+- [BlaBlaCar Bus Bookings Routes API](https://apis.io/collections/blablacar-bus-api/open-blablacar-bus-api-routes-api/)
+- [BlaBlaCar Bus Bookings Stations API](https://apis.io/collections/blablacar-bus-api/open-blablacar-bus-api-stations-api/)
+- [BlaBlaCar Bus Bookings Tickets API](https://apis.io/collections/blablacar-bus-api/open-blablacar-bus-api-tickets-api/)
+- [BlaBlaCar Bus Bookings Trips API](https://apis.io/collections/blablacar-bus-api/open-blablacar-bus-api-trips-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [BlaBlaCar Bus API — jsonschema rules](https://apis.io/rules/blablacar-bus-api/blablacar-bus-api-jsonschema-spectral-rules/)
+- [BlaBlaCar Bus API API Rules](https://apis.io/rules/blablacar-bus-api/blablacar-bus-api-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Blablacar Bus Api Authentication](https://apis.io/security/blablacar-bus-api/blablacar-bus-api-authentication/)
+- [Blablacar Bus Api Domain Security](https://apis.io/security/blablacar-bus-api/blablacar-bus-api-domain-security/)
+- [Blablacar Bus Api Vulnerability Disclosure](https://apis.io/security/blablacar-bus-api/blablacar-bus-api-vulnerability-disclosure/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Blablacar Bus Api Plans Pricing](https://apis.io/plans/blablacar-bus-api/blablacar-bus-api-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Blablacar Bus Api Rate Limits](https://apis.io/rate-limits/blablacar-bus-api/blablacar-bus-api-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Blablacar Bus Api Finops](https://apis.io/finops/blablacar-bus-api/blablacar-bus-api-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.blablacar.com/bus)
 - [Documentation](https://bus-api.blablacar.com/)
-- [GitHub Organization](https://github.com/blablacar)
-- [Terms of Service](https://www.blablacar.com/about-us/terms-and-conditions)
-- [Privacy Policy](https://www.blablacar.com/about-us/privacy-policy)
-- [SpectralRules](rules/blablacar-bus-api-spectral-rules.yml)
-- [NaftikoCapability](capabilities/blablacar-bus-booking.yaml)
-- [Vocabulary](vocabulary/blablacar-bus-api-vocabulary.yaml)
+- [Terms of service](https://www.blablacar.com/about-us/terms-and-conditions)
+- [Privacy policy](https://www.blablacar.com/about-us/privacy-policy)
+- [GitHub](https://github.com/blablacar)
 
-## Features
+## API Evangelist rating
 
-| Name | Description |
-|------|-------------|
-| Route Search | Search available coach routes between origin and destination stations across European markets with departure dates and passenger counts. |
-| Seat Availability | Check real-time seat availability and pricing for specific routes, trips, and departure times. |
-| Booking Creation | Create confirmed bookings for passengers with seat selection, passenger details, and payment processing integration. |
-| Ticket Management | Retrieve, modify, and cancel tickets with electronic ticket delivery and QR code generation. |
-| Station Information | Access comprehensive station data including names, addresses, GPS coordinates, and amenities across the BlaBlaCar Bus network. |
-| Multi-Market Coverage | Single API integration covering coach routes across France, Germany, Poland, Spain, Italy, Ukraine, and other European markets. |
+**Kin Score 27.0** — thin · rubric 0.24.0 · scored 2026-10-17
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 21.7 |
+| Contract governance | 27.3 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 16.7 |
+| Access clarity | 28.9 |
 
-| Name | Description |
-|------|-------------|
-| OTA Integration | Online travel agencies can search and book BlaBlaCar Bus routes alongside trains, flights, and car rentals for multimodal journey planning. |
-| Travel Aggregator | Price comparison and travel search engines can surface BlaBlaCar Bus options in coach and intercity bus search results. |
-| Corporate Travel | Enterprise travel management companies can include BlaBlaCar Bus as an affordable intercity transport option for business travelers. |
-| Mobility Platform | Mobility-as-a-Service platforms can integrate BlaBlaCar Bus as a long-distance transport mode in multimodal journey planning. |
-| Reseller Programs | Authorized resellers can distribute BlaBlaCar Bus tickets through their own branded channels and sales touchpoints. |
+**Agent readiness 24.7** — agent-aware
 
-## Integrations
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
 
-| Name | Description |
-|------|-------------|
-| BlaBlaCar Carpooling | BlaBlaCar Bus complements the carpooling marketplace, enabling multimodal journey planning combining bus and ridesharing. |
-| Google Maps Platform | Station coordinates and route data can be overlaid on mapping platforms for journey visualization. |
+**Regulatory alignment 30.4** — Horizontal (data, software, accessibility, platform)
 
-## Artifacts
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/blablacar-bus-api/](https://apis.io/providers/blablacar-bus-api/).
 
-Machine-readable API specifications organized by format.
+## How this profile is made
 
-### OpenAPI
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-- [BlaBlaCar Bus API](openapi/blablacar-bus-api-openapi.yaml)
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for BlaBlaCar Bus API: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-### JSON Schema
+## Open an issue
 
-- [Route](json-schema/blablacar-bus-api-route-schema.json)
-- [Trip](json-schema/blablacar-bus-api-trip-schema.json)
-- [Booking](json-schema/blablacar-bus-api-booking-schema.json)
-- [Ticket](json-schema/blablacar-bus-api-ticket-schema.json)
-- [Station](json-schema/blablacar-bus-api-station-schema.json)
-
-### JSON Structure
-
-- [Route](json-structure/blablacar-bus-api-route-structure.json)
-- [Trip](json-structure/blablacar-bus-api-trip-structure.json)
-- [Booking](json-structure/blablacar-bus-api-booking-structure.json)
-- [Ticket](json-structure/blablacar-bus-api-ticket-structure.json)
-- [Station](json-structure/blablacar-bus-api-station-structure.json)
-
-### JSON-LD
-
-- [BlaBlaCar Bus API Context](json-ld/blablacar-bus-api-context.jsonld)
-
-### Examples
-
-- [Route Example](examples/blablacar-bus-api-route-example.json)
-- [Trip Example](examples/blablacar-bus-api-trip-example.json)
-- [Booking Example](examples/blablacar-bus-api-booking-example.json)
-- [Ticket Example](examples/blablacar-bus-api-ticket-example.json)
-- [Station Example](examples/blablacar-bus-api-station-example.json)
-
-## Capabilities
-
-Naftiko capabilities organized as shared per-API definitions composed into customer-facing workflows.
-
-### Shared Per-API Definitions
-
-- [BlaBlaCar Bus API](capabilities/shared/blablacar-bus-api.yaml) — 7 operations for route search, trip availability, booking, ticket, and station management
-
-### Workflow Capabilities
-
-| Workflow | APIs Combined | Tools | Persona |
-|----------|--------------|-------|---------|
-| [BlaBlaCar Bus Booking](capabilities/blablacar-bus-booking.yaml) | BlaBlaCar Bus API | 7 | Travel Agents, OTA Developers, Corporate Travel Managers, Travelers |
-
-## Vocabulary
-
-- [BlaBlaCar Bus API Vocabulary](vocabulary/blablacar-bus-api-vocabulary.yaml) — Unified taxonomy mapping 5 resources, 5 actions, 1 workflow, and 4 personas across operational (OpenAPI) and capability (Naftiko) dimensions
-
-## Rules
-
-- [BlaBlaCar Bus API Spectral Rules](rules/blablacar-bus-api-spectral-rules.yml) — 33 rules across 12 categories enforcing BlaBlaCar Bus API conventions
-
-## Maintainers
-
-**FN:** Kin Lane
-
-**Email:** kin@apievangelist.com
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/blablacar-bus-api/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
